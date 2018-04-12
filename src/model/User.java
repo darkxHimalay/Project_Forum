@@ -37,19 +37,35 @@ public class User {
         }
         catch (Exception e){e.printStackTrace();}
     }
-    public static String  getname(String id){
-        String name=null;
+    public static String getname(int id) {
+        String name = null;
+        try {
+            con = ConnectionProvider.getConnection();
+            ps = con.prepareStatement("SELECT full_name FROM logintableetech WHERE student_id=? ");
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            rs.next();
+            name = rs.getString("full_name");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
+    public  String getname(String id) {
+        String name = null;
         try {
             con = ConnectionProvider.getConnection();
             ps = con.prepareStatement("SELECT full_name FROM logintableetech WHERE email=?");
-            ps.setString(1,id);
-            rs=ps.executeQuery();
+            ps.setString(1, id);
+            rs = ps.executeQuery();
             rs.next();
-            name= rs.getString("full_name");
-        }catch (Exception e){e.printStackTrace();}
+            name = rs.getString("full_name");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return name;
     }
-    public static String  getbeboId(String id){
+    public static String getbeboId(String id){
         String name=null;
         try {
             con = ConnectionProvider.getConnection();
@@ -60,5 +76,24 @@ public class User {
             name= rs.getString("bebo_reg_id");
         }catch (Exception e){e.printStackTrace();}
         return name;
+    }
+    public static int getStudent_id(String emailid){
+        int id=0;
+        try {
+            con = ConnectionProvider.getConnection();
+            ps = con.prepareStatement("SELECT * FROM logintableetech WHERE email=?");
+            ps.setString(1,emailid);
+            rs=ps.executeQuery();
+            rs.next();
+            id= rs.getInt(7);
+        }catch (Exception e){e.printStackTrace();}
+        return id;
+    }
+
+    public static void main(String[] args) {
+        String s=getname(1);
+        System.out.println(s);
+        int i=getStudent_id("hello@gmail.com");
+        System.out.println(i);
     }
 }

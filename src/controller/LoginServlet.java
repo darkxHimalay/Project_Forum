@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -43,14 +44,20 @@ public class LoginServlet extends HttpServlet{
         userreg_id=request.getParameter("reg_id");
         dob=request.getParameter("dob");
         buttonValue=request.getParameter("sign-sign-up-button");
+        int student_id=User.getStudent_id(useremail);
         //out.println(buttonValue);
+        System.out.println(student_id);
+        //String name=User.getname(useremail);
         if(buttonValue.equals("sign_in")){
             try {
                 user=new User();
                 if(user.validate(useremail,userpass)){
-                    RequestDispatcher rd= request.getRequestDispatcher("dashboard.jsp");
+                    //TODO creating a session
+//                    HttpSession user_ses=request.getSession(true);
+//                    user_ses.setAttribute("ID",name);
+                    request.setAttribute("value",student_id);
                     out.println("<h5 STYLE=\"color: darkred\">Login Sucess</h5>");
-                    rd.include(request,response);
+                    request.getRequestDispatcher("dashboard.jsp").include(request,response);
                 }
             }
             catch(Exception e){e.printStackTrace();}

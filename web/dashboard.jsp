@@ -102,16 +102,24 @@
                     <img class="card-img-top" src="https://www.yueimg.com/en/images/common/avatar.b6a87.png" alt="Card image cap" style="
           width:7rem;margin-left:100px;">
                     <ul class="list-group list-group-flush">
-                        <%! String name=null;
+                        <%!
+                            String name=null;
                             String reg_id=null;
+                            String email=null;
                             User u;
+                            Object valueOBJ;
+                            Integer valueString=0;
                         %>
-                        <% u=new User();
+                        <%
+                             //valueOBJ=request.getAttribute("value");
+                             //valueString=Integer.valueOf((String)valueOBJ);
+                            u=new User();
                             name=u.getname(request.getParameter("emauil_us"));
-                            reg_id=u.getbeboId(request.getParameter("emauil_us"));
+                            reg_id=User.getbeboId(request.getParameter("emauil_us"));
+                            // name=User.getname(valueString);
                         %>
                         <li class="list-group-item"><input type="hidden" name="name" value="<%=name%>"><%=name%></li>
-                        <li class="list-group-item"><%=reg_id%></li>
+                        <li class="list-group-item" value=""><%=reg_id%></li>
                         <li class="list-group-item">Java/sqa/PHP</li>
                     </ul>
                 </div>
@@ -128,7 +136,7 @@
         if(request.getParameter("postQuestioButton")==null){
             try{
                 con= ConnectionProvider.getConnection();
-                ps=con.prepareStatement("SELECT * FROM save_question");
+                ps=con.prepareStatement("SELECT * FROM save_question ORDER BY question_id desc");
                 rs=ps.executeQuery();
                 while(rs.next()){
     %>
@@ -140,7 +148,7 @@
                     <h6 class="card-subtitle mb-2 text-muted"><%=rs.getString(3)%></h6>
                     <p class="card-text">Q:<%=rs.getString(2)%></p>
                     <a href="#"  type="button" class="btn btn-primary">upvote</a>
-                    <a href="#" type="button" class="btn btn-primary">downvote</a>
+                    <a href="#" type="button" class="btn btn-primary">Reply</a>
                 </div>
             </div>
         </div>
@@ -165,7 +173,7 @@
                     <h6 class="card-subtitle mb-2 text-muted"><%=rs.getString(2)%></h6>
                     <p class="card-text">Q:<%=rs.getString(1)%></p>
                     <a href="#"  type="button" class="btn btn-primary">upvote</a>
-                    <a href="#" type="button" class="btn btn-primary">downvote</a>
+                    <a href="#" type="button" class="btn btn-primary">Reply</a>
                 </div>
             </div>
         </div>

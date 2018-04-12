@@ -77,12 +77,13 @@
     private static ResultSet rs;
 %>
 <main role="main" class="container" style="max-width: 1400px;">
+    <h4> To Ask any query Login to the e-tech Forum</h4>
     <div class="row" style="width: 100%">
         <div class="col-12">
             <%
                 try{
                     con= ConnectionProvider.getConnection();
-                    ps=con.prepareStatement("SELECT * FROM save_question");
+                    ps=con.prepareStatement("SELECT * FROM save_question ORDER BY question_id DESC");
                     rs=ps.executeQuery();
                     while(rs.next()){
             %>
