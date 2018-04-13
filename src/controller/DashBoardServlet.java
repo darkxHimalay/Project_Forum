@@ -37,7 +37,6 @@ public class DashBoardServlet extends HttpServlet {
                 request.setAttribute("value",comin);
                 request.getRequestDispatcher("dashboard.jsp").include(request,response);
                 }
-
         }
         catch(Exception e){e.printStackTrace();}
     }
