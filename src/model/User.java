@@ -51,26 +51,12 @@ public class User {
         }
         return name;
     }
-    public  String getname(String id) {
-        String name = null;
-        try {
-            con = ConnectionProvider.getConnection();
-            ps = con.prepareStatement("SELECT full_name FROM logintableetech WHERE email=?");
-            ps.setString(1, id);
-            rs = ps.executeQuery();
-            rs.next();
-            name = rs.getString("full_name");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return name;
-    }
-    public static String getbeboId(String id){
+    public static String getbeboId(int id){
         String name=null;
         try {
             con = ConnectionProvider.getConnection();
-            ps = con.prepareStatement("SELECT bebo_reg_id FROM logintableetech WHERE email=?");
-            ps.setString(1,id);
+            ps = con.prepareStatement("SELECT bebo_reg_id FROM logintableetech WHERE student_id=?");
+            ps.setInt(1,id);
             rs=ps.executeQuery();
             rs.next();
             name= rs.getString("bebo_reg_id");

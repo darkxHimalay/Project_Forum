@@ -91,6 +91,7 @@
 
                         <textarea name="question" rows="8" cols="60"></textarea>
                         <br>
+
                         <button type="submit" name="postQuestioButton" class="btn btn-primary">Post your question</button>
 
                         <!--</form>  -->
@@ -107,16 +108,15 @@
                             String reg_id=null;
                             String email=null;
                             User u;
-                            Object valueOBJ;
-                            Integer valueString=0;
+                            String valueOBJ;
+                            Integer valueINT=null;
                         %>
                         <%
-                             //valueOBJ=request.getAttribute("value");
-                             //valueString=Integer.valueOf((String)valueOBJ);
-                            u=new User();
-                            name=u.getname(request.getParameter("emauil_us"));
-                            reg_id=User.getbeboId(request.getParameter("emauil_us"));
-                            // name=User.getname(valueString);
+                             valueOBJ=request.getAttribute("value").toString();
+                             valueINT=Integer.parseInt(valueOBJ);
+                             u=new User();
+                             name=User.getname(valueINT);
+                             reg_id=User.getbeboId(valueINT);
                         %>
                         <li class="list-group-item"><input type="hidden" name="name" value="<%=name%>"><%=name%></li>
                         <li class="list-group-item" value=""><%=reg_id%></li>
@@ -125,6 +125,7 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" name="getAtt" value="<%=valueOBJ%>">
     </form>
     <br>
     <%!

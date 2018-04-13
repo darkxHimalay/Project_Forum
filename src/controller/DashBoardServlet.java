@@ -27,15 +27,15 @@ public class DashBoardServlet extends HttpServlet {
         String n=request.getParameter("name");
       //  String email=request.getParameter("emauil_us");
         PrintWriter out=response.getWriter();
-        request.setAttribute(n,"value");
+
+        String comin=request.getParameter("getAtt").toString();
+
         try{
             if(request.getParameter("postQuestioButton")!=null){
-//                HttpSession user_ses2=request.getSession(false);
-//                if(user_ses2 !=null && user_ses2.getAttribute("ID").equals(email)){
                 SaveQuestion save=new SaveQuestion();
                 save.saveQuestion(s,p,n,SaveQuestion.get_id(n));
-                RequestDispatcher rd=request.getRequestDispatcher("dashboard.jsp");
-                rd.forward(request,response);
+                request.setAttribute("value",comin);
+                request.getRequestDispatcher("dashboard.jsp").include(request,response);
                 }
 
         }
