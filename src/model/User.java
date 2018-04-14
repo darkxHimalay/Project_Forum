@@ -8,13 +8,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class User {
-    private static Connection con=null;
-    private static PreparedStatement ps;
-    private static ResultSet rs;
-    private static Statement stm;
+    private  Connection con=null;
+    private  PreparedStatement ps;
+    private  ResultSet rs;
+    private  Statement stm;
     public boolean validate(String s,String a){
         try{
-            con= ConnectionProvider.getConnection();
+            con= new ConnectionProvider().getConnection();
             ps=con.prepareStatement("select * from logintableetech where email=? and password=?");
             ps.setString(1,s);
             ps.setString(2,a);
@@ -26,7 +26,7 @@ public class User {
     }
     public void insertData(String username,String email,String pass,String reg_id,String dob){
         try {
-            con=ConnectionProvider.getConnection();
+            con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("INSERT INTO logintableetech VALUES (?,?,?,?,?,now(),NULL)");
             ps.setString(1,reg_id);
             ps.setString(2,pass);
@@ -37,10 +37,10 @@ public class User {
         }
         catch (Exception e){e.printStackTrace();}
     }
-    public static String getname(int id) {
+    public String getname(int id) {
         String name = null;
         try {
-            con = ConnectionProvider.getConnection();
+            con = new ConnectionProvider().getConnection();
             ps = con.prepareStatement("SELECT full_name FROM logintableetech WHERE student_id=? ");
             ps.setInt(1, id);
             rs = ps.executeQuery();
@@ -51,10 +51,10 @@ public class User {
         }
         return name;
     }
-    public static String getbeboId(int id){
+    public String getbeboId(int id){
         String name=null;
         try {
-            con = ConnectionProvider.getConnection();
+            con = new ConnectionProvider().getConnection();
             ps = con.prepareStatement("SELECT bebo_reg_id FROM logintableetech WHERE student_id=?");
             ps.setInt(1,id);
             rs=ps.executeQuery();
@@ -63,10 +63,10 @@ public class User {
         }catch (Exception e){e.printStackTrace();}
         return name;
     }
-    public static int getStudent_id(String emailid){
+    public int getStudent_id(String emailid){
         int id=0;
         try {
-            con = ConnectionProvider.getConnection();
+            con = new ConnectionProvider().getConnection();
             ps = con.prepareStatement("SELECT * FROM logintableetech WHERE email=?");
             ps.setString(1,emailid);
             rs=ps.executeQuery();
@@ -77,9 +77,9 @@ public class User {
     }
 
     public static void main(String[] args) {
-        String s=getname(1);
+        String s=new User().getname(1);
         System.out.println(s);
-        int i=getStudent_id("hello@gmail.com");
+        int i=new User().getStudent_id("hello@gmail.com");
         System.out.println(i);
     }
 }

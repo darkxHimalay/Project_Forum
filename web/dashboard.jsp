@@ -115,8 +115,8 @@
                              valueOBJ=request.getAttribute("value").toString();
                              valueINT=Integer.parseInt(valueOBJ);
                              u=new User();
-                             name=User.getname(valueINT);
-                             reg_id=User.getbeboId(valueINT);
+                             name=new User().getname(valueINT);
+                             reg_id=new User().getbeboId(valueINT);
                         %>
                         <li class="list-group-item"><input type="hidden" name="name" value="<%=name%>"><%=name%></li>
                         <li class="list-group-item" value=""><%=reg_id%></li>
@@ -136,7 +136,7 @@
     <%
         if(request.getParameter("postQuestioButton")==null){
             try{
-                con= ConnectionProvider.getConnection();
+                con=  new ConnectionProvider().getConnection();
                 ps=con.prepareStatement("SELECT * FROM save_question ORDER BY question_id desc");
                 rs=ps.executeQuery();
                 while(rs.next()){
@@ -165,7 +165,7 @@
     <%
         if(request.getParameter("postQuestioButton")!=null){
             try{
-                con= ConnectionProvider.getConnection();
+                con= new ConnectionProvider().getConnection();
                 ps=con.prepareStatement("SELECT question,topic,Name AS date FROM save_question ORDER BY date ASC");
                 rs=ps.executeQuery();
                 while(rs.next()){

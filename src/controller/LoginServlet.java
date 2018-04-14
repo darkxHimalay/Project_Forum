@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet{
         userreg_id=request.getParameter("reg_id");
         dob=request.getParameter("dob");
         buttonValue=request.getParameter("sign-sign-up-button");
-        int student_id=User.getStudent_id(useremail);
+        int student_id=new User().getStudent_id(useremail);
         //out.println(buttonValue);
        // System.out.println(student_id);
         //String name=User.getname(useremail);

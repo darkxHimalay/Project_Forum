@@ -7,8 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class SaveReply {
-    private static Connection con;
-    private static PreparedStatement ps;
-    private static ResultSet rs;
+    private Connection con;
+    private PreparedStatement ps;
+    private ResultSet rs;
+    //public String getName(){}
+    //public String getQuestion(){}
 
 }
