@@ -117,6 +117,7 @@
                              u=new User();
                              name=new User().getname(valueINT);
                              reg_id=new User().getbeboId(valueINT);
+                            System.out.println(valueOBJ);
                         %>
                         <li class="list-group-item"><input type="hidden" name="name" value="<%=name%>"><%=name%></li>
                         <li class="list-group-item" value=""><%=reg_id%></li>
@@ -153,6 +154,7 @@
                     <button  name="replyButton" type="submit" class="btn btn-primary">Reply</button>
                     <input type="hidden" name="question_id" value="<%=rs.getInt("question_id")%>">
                     <input type="hidden" name="student_id" value="<%=rs.getInt("student_id")%>">
+                    <input type="hidden" name="student_idl" value="<%=valueOBJ%>">
                 </div>
             </div>
         </div>

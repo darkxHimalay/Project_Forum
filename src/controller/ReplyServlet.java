@@ -1,5 +1,7 @@
 package controller;
 
+import model.SaveReply;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +18,14 @@ public class ReplyServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
      String student_id=request.getParameter("student_id");
      String question_id=request.getParameter("question_id");
-
-        System.out.println(student_id +" ==> "+question_id);
-    }
+     String student_idl=request.getParameter("student_idl");
+     int studentId=Integer.parseInt(student_id);
+     int questionId=Integer.parseInt(question_id);
+     int studentIdl=Integer.parseInt(student_idl);
+       // System.out.println(student_id+" ==> "+question_id+" ==> "+student_idl);
+     String reply = request.getParameter("ReplyFromJsp");
+        SaveReply save= new SaveReply();
+        save.save_reply(reply,studentId,studentIdl,questionId);
+        request.getRequestDispatcher("Reply.jsp").include(request,response);
+     }
 }

@@ -14,7 +14,7 @@ public class SaveQuestion {
     private static Statement stm;
     public static int get_id(String name){
         try {
-            con=ConnectionProvider.getConnection();
+            con=new ConnectionProvider().getConnection();
             ps = con.prepareStatement("select student_id from logintableetech where full_name=?");
             ps.setString(1,name);
             rs=ps.executeQuery();
@@ -26,7 +26,7 @@ public class SaveQuestion {
     }
     public static void saveQuestion(String question,String topic,String name,int id) {
         try {
-            con=ConnectionProvider.getConnection();
+            con=new ConnectionProvider().getConnection();
             ps = con.prepareStatement("INSERT INTO save_question VALUES (null,?,?,?,now(),?)");
             ps.setString(1, question);
             ps.setString(2, topic);
@@ -37,7 +37,7 @@ public class SaveQuestion {
     }
     public String showName(){
         try{
-            con=ConnectionProvider.getConnection();
+            con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("SELECT * FROM save_question");
             rs=ps.executeQuery();
             while(rs.next()){
@@ -49,7 +49,7 @@ public class SaveQuestion {
     }
     public String showTopic(){
         try{
-            con=ConnectionProvider.getConnection();
+            con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("SELECT * FROM save_question");
             rs=ps.executeQuery();
             while(rs.next()){
@@ -61,7 +61,7 @@ public class SaveQuestion {
     }
     public String showQuestion(){
         try{
-            con=ConnectionProvider.getConnection();
+            con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("SELECT * FROM save_question");
             rs=ps.executeQuery();
             while(rs.next()){
@@ -73,8 +73,8 @@ public class SaveQuestion {
     }
     // public String showdate(){}
     //public ArrayList<Question> showQuestion(){}
-    public static void main(String[] args) {
-       int id=get_id("hello");
-        System.out.println(id);
-    }
+//    public static void main(String[] args) {
+//       int id=get_id("hello");
+//        System.out.println(id);
+//    }
 }

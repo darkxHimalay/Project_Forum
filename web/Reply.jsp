@@ -5,7 +5,17 @@
   Time: 20:40
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"
+    import="java.sql.Connection" import="java.sql.PreparedStatement" import="utility.ConnectionProvider"
+    import="java.sql.ResultSet"%>
+<%@ page import="model.SaveReply" %>
+<%!
+    private Connection con;
+    private PreparedStatement ps;
+    private ResultSet rs;
+    private String reply=null;
+    SaveReply re;
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -69,24 +79,34 @@
 
 <main role="main" class="container" style="max-width: 1400px;">
     <form action="ReplyServlet">
-        <%! String question_id;String student_id;%>
-        <% question_id=request.getParameter("question_id"); student_id=request.getParameter("student_id");%>
+        <%! String question_id;
+            String student_id;
+            String student_idl;
+        %>
+        <% question_id=request.getParameter("question_id");
+           student_id=request.getParameter("student_id");
+           student_idl=request.getParameter("student_idl");
+           re=new SaveReply();
+        %>
+
         <div class="row" style="width:100%;">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        In reply of the  Question
+                       <!-- In reply of the  Question-->
+                       Topic: <b><%=re.getTopic(question_id)%></b>
                     </div>
                     <div class="card-body" style="">
-                        <h5 class="card-title" style="margin-left:32px; "> Question</h5>
+                        <h5 class="card-title" style="margin-left:32px; ">Question:-<%=re.getQuestion(question_id)%><%%></h5>
                         <p class="card-text"></p>
 
-                        <textarea name="question" rows="6" cols="160" style="margin-left:35px; "></textarea>
+                        <textarea name="ReplyFromJsp" rows="6" cols="160" style="margin-left:35px; "></textarea>
                         <br>
                         <br>
                         <input type="hidden" name="question_id" value="<%=question_id%>">
                         <input type="hidden" name="student_id" value="<%=student_id%>">
-                        <button type="submit" name="postQuestioButton" class="btn btn-primary" style="margin-left: 32px;">Post your Reply</button>
+                        <input type="hidden" name="student_idl" value="<%=student_idl%>">
+                        <button type="submit" name="postQuestioButton1" class="btn btn-primary" style="margin-left: 32px;">Post your Reply</button>
                         <!--</form>  -->
                     </div>
                 </div>
@@ -94,30 +114,49 @@
         </div>
     </form>
     <br>
+
+    <%
+        if(request.getParameter("postQuestionButton1")==null){
+            try{
+                 con=new ConnectionProvider().getConnection();
+                 ps=con.prepareStatement("SELECT * FROM reply_table");
+                 rs=ps.executeQuery();
+                 while(rs.next()){
+    %>
     <div class="row" style="width:100%">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" style="margin-left: 32px;">Name of the Student </h5>
-                    <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;">Topic</h6>
-                    <p class="card-text"style="margin-left: 32px;">Reply:this is text to increse the content of the card </p>
+                    <h5 class="card-title" style="margin-left: 32px;"><%=re.getName(rs.getString("student_id"))%> Asked <em>Q: <em><%=re.getQuestion(rs.getString("question_id"))%> </h5>
+                    <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;">Topic : <b><%=re.getTopic(rs.getString("student_id"))%></b></h6>
+                    <p class="card-text"style="margin-left: 32px;"><b><%=re.getName(rs.getString("student_idl"))%> Replied : </b><%=rs.getString("reply")%></p>
                 </div>
             </div>
         </div>
     </div>
     <br>
+    <%}}catch (Exception e){e.printStackTrace();}}%>
+    <%
+        if(request.getParameter("postQuestionButton1")!=null){
+            try{
+                con=new ConnectionProvider().getConnection();
+                ps=con.prepareStatement("SELECT * FROM reply_table");
+                rs=ps.executeQuery();
+                while(rs.next()){
+    %>
     <div class="row" style="width:100%">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" style="margin-left: 32px;">Name of the Student </h5>
-                    <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;">Topic</h6>
-                    <p class="card-text"style="margin-left: 32px;">Reply:this is text to increse the content of the card </p>
+                    <h5 class="card-title" style="margin-left: 32px;"><%=re.getName(rs.getString("student_id"))%> </h5>
+                    <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;">Topic : <b><%=re.getTopic(rs.getString("student_id"))%></b></h6>
+                    <p class="card-text"style="margin-left: 32px;"><b><%=re.getName(rs.getString("student_id"))%> Replied :</b><%=rs.getString("reply")%></p>
                 </div>
             </div>
         </div>
     </div>
     <br>
+    <%}}catch (Exception e){e.printStackTrace();}}%>
 </main>
 <style>
     .footer{

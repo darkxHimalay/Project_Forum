@@ -21,7 +21,6 @@
     <link rel="icon" href="image/logo.png">
 
     <title>E-tech forum</title>
-
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -72,9 +71,9 @@
 </nav>
 
 <%!
-    private static Connection con;
-    private static PreparedStatement ps;
-    private static ResultSet rs;
+    private Connection con;
+    private PreparedStatement ps;
+    private ResultSet rs;
 %>
 <main role="main" class="container" style="max-width: 1400px;">
     <h4> To Ask any query Login to the e-tech Forum</h4>
@@ -82,7 +81,7 @@
         <div class="col-12">
             <%
                 try{
-                    con= ConnectionProvider.getConnection();
+                    con= new ConnectionProvider().getConnection();
                     ps=con.prepareStatement("SELECT * FROM save_question ORDER BY question_id DESC");
                     rs=ps.executeQuery();
                     while(rs.next()){
