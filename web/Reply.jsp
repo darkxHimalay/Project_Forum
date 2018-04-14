@@ -1,13 +1,10 @@
 <%--
   Created by IntelliJ IDEA.
   User: Himalay
-  Date: 08-04-2018
-  Time: 15:10
+  Date: 13-04-2018
+  Time: 20:40
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="model.User" %>
-<%@ page import="java.sql.*"%>
-<%@ page import="utility.ConnectionProvider"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -52,7 +49,7 @@
                 <a class="nav-link" href="#"style="color: black">Logout</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="Questions.jsp" style="color: black">Dashboard</a>
+                <a class="nav-link" href="dashboard.jsp" style="color: black">Dashboard</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black">Dropdown</a>
@@ -71,120 +68,56 @@
 </nav>
 
 <main role="main" class="container" style="max-width: 1400px;">
-    <form action="DashboardServlet">
+    <form action="ReplyServlet">
+        <%! String question_id;String student_id;%>
+        <% question_id=request.getParameter("question_id"); student_id=request.getParameter("student_id");%>
         <div class="row" style="width:100%;">
-            <div class="col-9">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        Having Question
-                        <select name="topic">
-                            <option value="default">Topic</option>
-                            <option value="java/Android">java/Android</option>
-                            <option value="java EE" >java EE</option>
-                            <option value="SQA" >SQA</option>
-                            <option value="PHP" >PHP</option>
-                        </select>
+                        In reply of the  Question
                     </div>
                     <div class="card-body" style="">
-                        <h5 class="card-title">Ask A Question</h5>
+                        <h5 class="card-title" style="margin-left:32px; "> Question</h5>
                         <p class="card-text"></p>
 
-                        <textarea name="question" rows="8" cols="60"></textarea>
+                        <textarea name="question" rows="6" cols="160" style="margin-left:35px; "></textarea>
                         <br>
-
-                        <button type="submit" name="postQuestioButton" class="btn btn-primary">Post your question</button>
-
+                        <br>
+                        <input type="hidden" name="question_id" value="<%=question_id%>">
+                        <input type="hidden" name="student_id" value="<%=student_id%>">
+                        <button type="submit" name="postQuestioButton" class="btn btn-primary" style="margin-left: 32px;">Post your Reply</button>
                         <!--</form>  -->
                     </div>
                 </div>
             </div>
-            <div class="col-3" style="float: right;">
-                <div class="card" style="width: 20rem;">
-                    <img class="card-img-top" src="https://www.yueimg.com/en/images/common/avatar.b6a87.png" alt="Card image cap" style="
-          width:7rem;margin-left:100px;">
-                    <ul class="list-group list-group-flush">
-                        <%!
-                            String name=null;
-                            String reg_id=null;
-                            String email=null;
-                            User u;
-                            String valueOBJ;
-                            Integer valueINT=null;
-                        %>
-                        <%
-                             valueOBJ=request.getAttribute("value").toString();
-                             valueINT=Integer.parseInt(valueOBJ);
-                             u=new User();
-                             name=User.getname(valueINT);
-                             reg_id=User.getbeboId(valueINT);
-                        %>
-                        <li class="list-group-item"><input type="hidden" name="name" value="<%=name%>"><%=name%></li>
-                        <li class="list-group-item" value=""><%=reg_id%></li>
-                        <li class="list-group-item">Java/sqa/PHP</li>
-                    </ul>
-                </div>
-            </div>
         </div>
-        <input type="hidden" name="getAtt" value="<%=valueOBJ%>">
     </form>
     <br>
-    <%!
-        private static Connection con;
-        private static PreparedStatement ps;
-        private static ResultSet rs;
-    %>
-    <%
-        if(request.getParameter("postQuestioButton")==null){
-            try{
-                con= ConnectionProvider.getConnection();
-                ps=con.prepareStatement("SELECT * FROM save_question ORDER BY question_id desc");
-                rs=ps.executeQuery();
-                while(rs.next()){
-    %>
-    <form action="Reply.jsp">
-    <div class="row" style="width: 100%">
-        <div class="col-9">
+    <div class="row" style="width:100%">
+        <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><%=rs.getString(4)%></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><%=rs.getString(3)%></h6>
-                    <p class="card-text">Q:<%=rs.getString(2)%></p>
-                    <a href="#"  type="button" class="btn btn-primary">upvote</a>
-                    <button  name="replyButton" type="submit" class="btn btn-primary">Reply</button>
-                    <input type="hidden" name="question_id" value="<%=rs.getInt("question_id")%>">
-                    <input type="hidden" name="student_id" value="<%=rs.getInt("student_id")%>">
-                </div>
-            </div>
-        </div>
-    </div>
-    </form>
-    <br>
-    <%
-                }}catch (Exception e){e.printStackTrace();}}
-    %>
-    <%
-        if(request.getParameter("postQuestioButton")!=null){
-            try{
-                con= ConnectionProvider.getConnection();
-                ps=con.prepareStatement("SELECT question,topic,Name AS date FROM save_question ORDER BY date ASC");
-                rs=ps.executeQuery();
-                while(rs.next()){
-    %>
-    <div class="row" style="width: 100%">
-        <div class="col-9">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><%=rs.getString(3)%></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><%=rs.getString(2)%></h6>
-                    <p class="card-text">Q:<%=rs.getString(1)%></p>
-                    <a href="#"  type="button" class="btn btn-primary">upvote</a>
-                    <a href="#" type="button" class="btn btn-primary">Reply</a>
+                    <h5 class="card-title" style="margin-left: 32px;">Name of the Student </h5>
+                    <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;">Topic</h6>
+                    <p class="card-text"style="margin-left: 32px;">Reply:this is text to increse the content of the card </p>
                 </div>
             </div>
         </div>
     </div>
     <br>
-    <%}}catch (Exception e){e.printStackTrace();}}%>
+    <div class="row" style="width:100%">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="margin-left: 32px;">Name of the Student </h5>
+                    <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;">Topic</h6>
+                    <p class="card-text"style="margin-left: 32px;">Reply:this is text to increse the content of the card </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
 </main>
 <style>
     .footer{

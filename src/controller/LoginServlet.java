@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet{
         buttonValue=request.getParameter("sign-sign-up-button");
         int student_id=User.getStudent_id(useremail);
         //out.println(buttonValue);
-        System.out.println(student_id);
+       // System.out.println(student_id);
         //String name=User.getname(useremail);
         if(buttonValue.equals("sign_in")){
             try {

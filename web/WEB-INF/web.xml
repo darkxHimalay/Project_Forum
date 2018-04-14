@@ -19,7 +19,15 @@
         <servlet-name>DashboardServlet</servlet-name>
         <url-pattern>/DashboardServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ReplyServlet</servlet-name>
+        <servlet-class>controller.ReplyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReplyServlet</servlet-name>
+        <url-pattern>/ReplyServlet</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>replyAndQuestion.jsp</welcome-file>
+        <welcome-file>Questions.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

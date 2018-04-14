@@ -53,7 +53,7 @@
                 <a class="nav-link" href="#"style="color: black">Logout</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="dashboard.jsp" style="color: black">Dashboard</a>
+                <a class="nav-link" href="Questions.jsp" style="color: black">Dashboard</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black">Dropdown</a>
@@ -92,8 +92,8 @@
                     <h5 class="card-title"><%=rs.getString(4)%></h5>
                     <h6 class="card-subtitle mb-2 text-muted"><%=rs.getString(3)%></h6>
                     <p class="card-text">Q:<%=rs.getString(2)%></p>
-                    <a href="#"  type="button" class="btn btn-primary">upvote</a>
-                    <a href="#" type="button" class="btn btn-primary">Reply</a>
+                  <!--  <a href="#"  type="button" class="btn btn-primary">upvote</a>
+                    <a href="Reply.jsp" type="button" class="btn btn-primary">Reply</a> -->
                 </div>
             </div>
             <%}}catch (Exception e){e.printStackTrace();}%>

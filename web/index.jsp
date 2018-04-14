@@ -204,8 +204,8 @@
       <div class="cont_text_inputs">
         <form action="LoginServlet">
 
-          <input type="text" class="input_form_sign " placeholder="USERNAME" name="name_us" />
-          <input type="text" class="input_form_sign d_block active_inp" placeholder="EMAIL" name="emauil_us" />
+          <input type="text" class="input_form_sign " placeholder="USERNAME" name="name_us"/>
+          <input type="text" class="input_form_sign d_block active_inp" placeholder="EMAIL" name="emauil_us" required autofocus/>
           <input type="password" class="input_form_sign d_block  active_inp" placeholder="PASSWORD" name="pass_us" />
           <input type="password" class="input_form_sign" placeholder="CONFIRM PASSWORD" name="conf_pass_us" />
           <input type="text" class="input_form_sign" placeholder="bebo_reg_id" name="reg_id">
