@@ -15,6 +15,7 @@
     private ResultSet rs;
     private String reply=null;
     SaveReply re;
+    String Question_id=null;
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -106,7 +107,7 @@
                         <input type="hidden" name="question_id" value="<%=question_id%>">
                         <input type="hidden" name="student_id" value="<%=student_id%>">
                         <input type="hidden" name="student_idl" value="<%=student_idl%>">
-                        <button type="submit" name="postQuestioButton1" class="btn btn-primary" style="margin-left: 32px;">Post your Reply</button>
+                        <button type="submit" name="postReplyButton" class="btn btn-primary" style="margin-left: 32px;">Post your Reply</button>
                         <!--</form>  -->
                     </div>
                 </div>
@@ -116,12 +117,14 @@
     <br>
 
     <%
-        if(request.getParameter("postQuestionButton1")==null){
+        if(request.getParameter("postReplyButton")==null){
             try{
                  con=new ConnectionProvider().getConnection();
-                 ps=con.prepareStatement("SELECT * FROM reply_table");
+                 ps=con.prepareStatement("SELECT * FROM reply_table where question_id=?");
+                 ps.setInt(1,Integer.parseInt(question_id));
                  rs=ps.executeQuery();
                  while(rs.next()){
+                     //question_id=rs.getString("question_id");
     %>
     <div class="row" style="width:100%">
         <div class="col-12">
@@ -137,10 +140,12 @@
     <br>
     <%}}catch (Exception e){e.printStackTrace();}}%>
     <%
-        if(request.getParameter("postQuestionButton1")!=null){
+        System.out.println(Integer.parseInt(question_id));
+        if(request.getParameter("postReplyButton")!=null){
             try{
                 con=new ConnectionProvider().getConnection();
-                ps=con.prepareStatement("SELECT * FROM reply_table");
+                ps=con.prepareStatement("SELECT * FROM reply_table where question_id=?");
+                ps.setInt(1,Integer.parseInt(question_id));
                 rs=ps.executeQuery();
                 while(rs.next()){
     %>
@@ -148,7 +153,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" style="margin-left: 32px;"><%=re.getName(rs.getString("student_id"))%> </h5>
+                    <h5 class="card-title" style="margin-left: 32px;"><%=re.getName(rs.getString("student_idl"))%> </h5>
                     <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;">Topic : <b><%=re.getTopic(rs.getString("student_id"))%></b></h6>
                     <p class="card-text"style="margin-left: 32px;"><b><%=re.getName(rs.getString("student_id"))%> Replied :</b><%=rs.getString("reply")%></p>
                 </div>

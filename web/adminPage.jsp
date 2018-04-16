@@ -1,11 +1,12 @@
-<%--
+<%@ page import="model.AdminPageClass" %><%--
   Created by IntelliJ IDEA.
   User: Himalay
   Date: 09-04-2018
   Time: 21:47
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"
+    import="model.AdminPageClass" %>
 <%!String adminUser=null;
     String adminPass=null;%>
 <%
@@ -56,7 +57,8 @@
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
                 <a href="#">
-                    <img src="img/logo.png" class="logo" alt="Logo"/>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ1VUL89x0tsgUspN59Cwu4FymEpelncqVTTENF4r4futwu1F_"
+                         class="logo" alt="Logo"/>
                 </a>
             </li>
             <li>
@@ -96,21 +98,25 @@
         <div class="clearfix"></div>
         <!-- Header -->
         <div class="header">
-            <div class="clearfix"></div>
+            <div class="clearfix">
+            </div>
             <div class="row">
                 <div class="col-lg-6 visible-lg visible-md">
-                    <div class="search_bar">
+                    <div class="search_bar" >
                         <div class="input-group search_bar_input">
                             <span class="input-group-addon">
                                 <button type="submit">
                                     <span class="fa fa-search"></span>
                                 </button>
                             </span>
-                            <input type="text" class="form-control"  placeholder="Search..." >
+                            <input type="text" class="form-control" style="border:1px;" placeholder="Search..." >
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
+                    <div class="pull-left">
+                        <input type="button" class="btn bg-primary" value="search" style="width: 10rem; height:5rem;"/>
+                    </div>
                     <div class="pull-right">
                         <div class="profile-overview">
                             <div class="dropdown customm-dropdown">
@@ -132,7 +138,16 @@
             </div>
         </div>
         <!-- /#header -->
-
+<%!
+    AdminPageClass adPgCl;
+    int i=0;
+    int j=0;
+    int k=0;
+%><%
+        adPgCl=new AdminPageClass();
+        i=adPgCl.countQueries();
+    j=adPgCl.countRegisteredUser();
+    k=adPgCl.countQueriesAnswered();%>
         <!-- Content area -->
         <div class="container-fluid">
             <div class="content-area">
@@ -147,8 +162,8 @@
                                 </div>
                             </div>
                             <div class="overview-right pull-left">
-                                <h4 class="overview-value">Number of Queries</h4>
-                                <span class="overview-title">Total Queries</span>
+                                <h4 class="overview-value"><%=i%></h4>
+                                <span class="overview-title"><h4>Total Queries</h4></span>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -163,8 +178,8 @@
                                 </div>
                             </div>
                             <div class="overview-right pull-left">
-                                <h4 class="overview-value">No of registered user</h4>
-                                <span class="overview-title">Total user</span>
+                                <h4 class="overview-value"><%=j%></h4>
+                                <span class="overview-title"><h4>Total user</h4></span>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -195,8 +210,8 @@
                                 </div>
                             </div>
                             <div class="overview-right pull-left">
-                                <h4 class="overview-value">Total Number of Queries answered</h4>
-                                <span class="overview-title">Total Answered</span>
+                                <h4 class="overview-value"><%=k%> Queries </h4>
+                                <span class="overview-title"><h4>Answered</h4></span>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -245,12 +260,23 @@
 
 
 
-<script src="js/jquery-2.2.0.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<!--<script src="js/jquery-2.2.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>-->
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script
+        src="https://code.jquery.com/jquery-2.2.4.js"
+        integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 <!-- Custom javascript -->
-<script src="js/theme.js"></script>
+<!--<script src="js/theme.js"></script>-->
+<script>$("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+});
+
+var docHeight = $( document ).height();
+$('#page-content-wrapper').css('min-height', docHeight);</script>
 </body>
 </html>
 <%}
