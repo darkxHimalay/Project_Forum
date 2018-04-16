@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet{
 //                    HttpSession user_ses=request.getSession(true);
 //                    user_ses.setAttribute("ID",name);
                     request.setAttribute("value",student_id);
-                    out.println("<h5 STYLE=\"color: darkred\">Login Sucess</h5>");
+                    out.println("<h5 STYLE=\"color: darkred\">  Login Sucess</h5>");
                     request.getRequestDispatcher("dashboard.jsp").include(request,response);
                 }
             }

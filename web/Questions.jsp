@@ -55,7 +55,7 @@
                 <a class="nav-link" href="Questions.jsp" style="color: black">Dashboard</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black">Dropdown</a>
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black">More</a>
                 <div class="dropdown-menu" style="background-color: #FFC200" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="admin.jsp" style="color: black">Admin/Login</a>
                     <a class="dropdown-item" href="# "style="color: black">About Us</a>

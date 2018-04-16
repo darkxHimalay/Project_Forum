@@ -55,11 +55,11 @@
                 <a class="nav-link" href="Questions.jsp" style="color: black">Dashboard</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black">Dropdown</a>
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black">More</a>
                 <div class="dropdown-menu" style="background-color: #FFC200" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="admin.jsp" style="color: black">Admin/Login</a>
                     <a class="dropdown-item" href="# "style="color: black">About Us</a>
-                    <a class="dropdown-item" href="# "style="color: black">Something else here</a>
+                    <a class="dropdown-item" href="# "style="color: black">Something else will be here</a>
                 </div>
             </li>
         </ul>
@@ -117,7 +117,7 @@
                              u=new User();
                              name=new User().getname(valueINT);
                              reg_id=new User().getbeboId(valueINT);
-                            System.out.println(valueOBJ);
+                           // System.out.println(valueOBJ);
                         %>
                         <li class="list-group-item"><input type="hidden" name="name" value="<%=name%>"><%=name%></li>
                         <li class="list-group-item" value=""><%=reg_id%></li>
@@ -150,7 +150,7 @@
                     <h5 class="card-title"><%=rs.getString(4)%></h5>
                     <h6 class="card-subtitle mb-2 text-muted"><%=rs.getString(3)%></h6>
                     <p class="card-text">Q:<%=rs.getString(2)%></p>
-                    <a href="#"  type="button" class="btn btn-primary">upvote</a>
+                    <a href="#"  type="button" class="btn btn-primary">Upvote</a>
                     <button  name="replyButton" type="submit" class="btn btn-primary">Reply</button>
                     <input type="hidden" name="question_id" value="<%=rs.getInt("question_id")%>">
                     <input type="hidden" name="student_id" value="<%=rs.getInt("student_id")%>">
@@ -168,23 +168,28 @@
         if(request.getParameter("postQuestioButton")!=null){
             try{
                 con= new ConnectionProvider().getConnection();
-                ps=con.prepareStatement("SELECT question,topic,Name AS date FROM save_question ORDER BY date ASC");
+                ps=con.prepareStatement("SELECT * FROM save_question ORDER BY question_id desc");
                 rs=ps.executeQuery();
                 while(rs.next()){
     %>
+    <form action="Reply.jsp">
     <div class="row" style="width: 100%">
         <div class="col-9">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><%=rs.getString(3)%></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><%=rs.getString(2)%></h6>
-                    <p class="card-text">Q:<%=rs.getString(1)%></p>
-                    <a href="#"  type="button" class="btn btn-primary">upvote</a>
-                    <a href="#" type="button" class="btn btn-primary">Reply</a>
+                    <h5 class="card-title"><%=rs.getString(4)%></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><%=rs.getString(3)%></h6>
+                    <p class="card-text">Q:<%=rs.getString(2)%></p>
+                    <a href="#"  type="button" class="btn btn-primary">Upvote</a>
+                    <button name="replyButton" type="submit" class="btn btn-primary">Reply</button>
+                    <input type="hidden" name="question_id" value="<%=rs.getInt("question_id")%>">
+                    <input type="hidden" name="student_id" value="<%=rs.getInt("student_id")%>">
+                    <input type="hidden" name="student_idl" value="<%=valueOBJ%>">
                 </div>
             </div>
         </div>
     </div>
+    </form>
     <br>
     <%}}catch (Exception e){e.printStackTrace();}}%>
 </main>

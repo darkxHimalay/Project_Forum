@@ -131,7 +131,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title" style="margin-left: 32px;"><%=re.getName(rs.getString("student_id"))%> Asked <em>Q: <em><%=re.getQuestion(rs.getString("question_id"))%> </h5>
-                    <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;">Topic : <b><%=re.getTopic(rs.getString("student_id"))%></b></h6>
+                    <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;">Topic : <b><%=re.getTopic(rs.getString("question_id"))%></b></h6>
                     <p class="card-text"style="margin-left: 32px;"><b><%=re.getName(rs.getString("student_idl"))%> Replied : </b><%=rs.getString("reply")%></p>
                 </div>
             </div>
@@ -140,12 +140,12 @@
     <br>
     <%}}catch (Exception e){e.printStackTrace();}}%>
     <%
-        System.out.println(Integer.parseInt(question_id));
+        //System.out.println(Integer.parseInt(question_id));
         if(request.getParameter("postReplyButton")!=null){
             try{
                 con=new ConnectionProvider().getConnection();
                 ps=con.prepareStatement("SELECT * FROM reply_table where question_id=?");
-                ps.setInt(1,Integer.parseInt(question_id));
+                ps.setString(1,question_id);
                 rs=ps.executeQuery();
                 while(rs.next()){
     %>
@@ -153,9 +153,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" style="margin-left: 32px;"><%=re.getName(rs.getString("student_idl"))%> </h5>
-                    <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;">Topic : <b><%=re.getTopic(rs.getString("student_id"))%></b></h6>
-                    <p class="card-text"style="margin-left: 32px;"><b><%=re.getName(rs.getString("student_id"))%> Replied :</b><%=rs.getString("reply")%></p>
+                    <h5 class="card-title" style="margin-left: 32px;"><%=re.getName(rs.getString("student_id"))%> Asked <em>Q: </em><%=re.getQuestion(rs.getString("question_id"))%></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;">Topic : <b><%=re.getTopic(rs.getString("question_id"))%></b></h6>
+                    <p class="card-text"style="margin-left: 32px;"><b><%=re.getName(rs.getString("student_idl"))%> Replied :</b><%=rs.getString("reply")%></p>
                 </div>
             </div>
         </div>
