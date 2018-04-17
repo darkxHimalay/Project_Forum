@@ -82,7 +82,7 @@
             <%
                 try{
                     con= new ConnectionProvider().getConnection();
-                    ps=con.prepareStatement("SELECT * FROM save_question ORDER BY question_id DESC");
+                    ps=con.prepareStatement("SELECT * FROM save_question ORDER BY question_id DESC Limit 10");
                     rs=ps.executeQuery();
                     while(rs.next()){
             %>

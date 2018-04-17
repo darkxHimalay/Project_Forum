@@ -196,7 +196,7 @@
     <header class="login-header">
         <span class="text">E-tech Login</span><span class="loader"></span>
     </header>
-    <form action="adminPage.jsp" class='login-form' name="myform">
+    <form action="AdminDashboard.jsp" class='login-form' name="myform">
         <input class="login-input" type="text" name="admin_ID" placeholder=" Admin ID" />
         <input class="login-input" type="password" name="password" placeholder="Password" />
         <button class="login-btn" type="submit" name="login_Sign_in" value="login">Login</button>

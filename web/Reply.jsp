@@ -63,7 +63,7 @@
                 <a class="nav-link" href="dashboard.jsp" style="color: black">Dashboard</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black">Dropdown</a>
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black">More</a>
                 <div class="dropdown-menu" style="background-color: #FFC200" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="admin.jsp" style="color: black">Admin/Login</a>
                     <a class="dropdown-item" href="# "style="color: black">About Us</a>
@@ -101,7 +101,7 @@
                         <h5 class="card-title" style="margin-left:32px; ">Question:-<%=re.getQuestion(question_id)%><%%></h5>
                         <p class="card-text"></p>
 
-                        <textarea name="ReplyFromJsp" rows="6" cols="160" style="margin-left:35px; "></textarea>
+                        <textarea name="ReplyFromJsp" rows="6" cols="135" style="margin-left:35px; "></textarea>
                         <br>
                         <br>
                         <input type="hidden" name="question_id" value="<%=question_id%>">
