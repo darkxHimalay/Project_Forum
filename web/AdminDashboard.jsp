@@ -129,11 +129,11 @@
                     <div class="col-lg-3">
                         <!-- Single block -->
                         <div class="overview-block">
-                            <div class="overview-left pull-left">
+                            <!--<div class="overview-left pull-left">
                                 <div class="overview-icon">
                                     <i class="fa fa-pie-chart"></i>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="overview-right pull-left">
                                 <h4 class="overview-value">$156060</h4>
                                 <span class="overview-title">Total Revenue</span>
