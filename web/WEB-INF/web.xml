@@ -28,6 +28,6 @@
         <url-pattern>/ReplyServlet</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>Questions.jsp</welcome-file>
+        <welcome-file>AdminDashboard.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
