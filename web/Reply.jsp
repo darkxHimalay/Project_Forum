@@ -45,8 +45,8 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg fixed-top" style="background-color: #FFC200;">
-    <a class="navbar-brand" href="#" style="color: black">E-tech Forum</a>
+<nav class="navbar navbar-expand-lg fixed-top" style="background-color: #3163b2;">
+    <a class="navbar-brand" href="#" style="color:whitesmoke">E-tech Forum</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -54,18 +54,18 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="index.jsp" style="color: black">Login/SignUp<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.jsp" style="color:whitesmoke">Login/SignUp<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"style="color: black">Logout</a>
+                <a class="nav-link" href="#"style="color:whitesmoke">Logout</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="dashboard.jsp" style="color: black">Dashboard</a>
+                <a class="nav-link" href="dashboard.jsp" style="color:whitesmoke">Dashboard</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black">More</a>
-                <div class="dropdown-menu" style="background-color: #FFC200" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="admin.jsp" style="color: black">Admin/Login</a>
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:whitesmoke">More</a>
+                <div class="dropdown-menu" style="background-color: #3163b2" aria-labelledby="dropdown01">
+                    <a class="dropdown-item" href="admin.jsp" style=".dropdown-item{color:whitesmoke}.dropdown-item:hover{color:black}">Admin/Login</a>
                     <a class="dropdown-item" href="# "style="color: black">About Us</a>
                     <a class="dropdown-item" href="# "style="color: black">Something else here</a>
                 </div>
@@ -171,7 +171,7 @@
         width: 100%;
     }
 </style>
-<footer class="footer" style="background-color: #FFC200;">
+<footer class="footer" style="background-color: #3163b2;">
     <div class="container">
         <span class="text-muted" style="text-color:black;">&copy;No Copyright Use it Well</span>
     </div>

@@ -1,5 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ page import="model.AdminPageClass" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="utility.ConnectionProvider" %>
+<%!
+    private Connection con;
+    private PreparedStatement ps;
+    private ResultSet rs;
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,6 +47,7 @@
 
 <div id="wrapper">
     <!-- Sidebar -->
+    <form action="AdminDashboard.jsp">
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
@@ -46,28 +56,30 @@
                 </a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-dashboard"></i> Dashboard</a>
+                <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="dashboard"><i class="fa fa-dashboard"></i> Dashboard</button>
             </li>
             <li>
-                <a href="#"><i class="fa fa-area-chart"></i> Analytics</a>
+                <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="deleteButton"><i class="fa fa-area-chart"></i> Delete Queries </button>
             </li>
             <li>
-                <a href="#"><i class="fa fa-tree"></i> Treading</a>
+                <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="mailForm"><i class="fa fa-tree"></i> Send Mail </button>
             </li>
             <li>
-                <a href="#"><i class="fa fa-shield"></i> Privacy</a>
+                <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke"href="#"><i class="fa fa-shield"></i> Privacy</button>
             </li>
             <li>
-                <a href="#"><i class="fa fa-foursquare"></i> Forum</a>
+                <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke"><i class="fa fa-foursquare"></i> Forum</button>
             </li>
             <li>
-                <a href="#"><i class="fa fa-support"></i> Support</a>
+                <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke"><i class="fa fa-support"></i> Support</button>
             </li>
             <li>
-                <a href="#"><i class="fa fa-signal"></i> Settings</a>
+                <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke"><i class="fa fa-signal"></i> Settings</button>
             </li>
         </ul>
+
     </div>
+    </form>
     <!-- /#sidebar-wrapper -->
 
     <!-- Page Content -->
@@ -109,7 +121,7 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                    <li><a href="#"><i class="fa fa-user"></i> Preview Techs</a></li>
+                                    <li><a href="index.jsp"><i class="fa fa-user"></i> E-tech Login</a></li>
                                     <li><a href="#"><i class="fa fa-wrench"></i> Setting</a></li>
                                     <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
                                 </ul>
@@ -126,11 +138,13 @@
             int i=0;
             int j=0;
             int k=0;
+            String topicValue;
         %><%
         adPgCl=new AdminPageClass();
         i=adPgCl.countQueries();
         j=adPgCl.countRegisteredUser();
-        k=adPgCl.countQueriesAnswered();%>
+        k=adPgCl.countQueriesAnswered();
+    %>
 
         <!-- Content area -->
         <div class="container-fluid">
@@ -201,39 +215,98 @@
                         </div>
                     </div>
                 </div>
+                <!--   For delete  -->
+                <% if (request.getParameter("deleteButton")!=null){%>
+                <!--<form action="AdminServlet.jsp">-->
+                <div id="DeletePart">
+                <form action="AdminDashboard.jsp">
+                <h4 class="overview-value"><span> Delete a Query </span></h4>
+                 Select Topic <select  name="topic" onchange=this.form.submit()>
+                    <option value="java"> Topic </option>
+                    <option value="java EE"> Java EE </option>
+                    <option value="java/Android"> Java\Android </option>
+                    <option value="PHP"> Php </option>
+                    <option value="SQA"> Sqa </option>
+                </select></form>
 
+                <%
+                    if(request.getParameter("topic")!=null){
+                    topicValue=request.getParameter("topic");
+                    System.out.println(topicValue);
+                    //if(request.getParameter("topic")!=null){
+                    //if(request.getParameter("deleteQueryButton")==null){
+                    try{
+                       con= new ConnectionProvider().getConnection();
+                       ps=con.prepareStatement("select * from save_question where topic=?");
+                       ps.setString(1,request.getParameter("topic"));
+                       rs=ps.executeQuery();
+                       while(rs.next()){
+                %>
+                <div class="row ">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <!--<div class="panel-heading">
+                                <h3 class="panel-title">Recent Visitor</h3>
+                            </div>-->
+                            <div class="panel-body">
+                                <h4>Question :<%=rs.getString("question")%></h4>
+                                <div class="pull-right"><button name="deleteQueryButton" class="btn btn-group bg-primary">Delete</button></div>
+                              <!--  <h4>RID displays your content in an eye-catching way and enables customizable internal distribution.</h4>
+                                <p>RID displays your content in an eye-catching way and enables customizable internal distribution. RID displays your content in an eye-catching way and enables customizable internal distribution.
+                                RID displays your content in an eye-catching way and enables customizable internal distribution.</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div><%}}catch (Exception e){e.printStackTrace();}}%>
+
+                    <% if(request.getParameter("deleteQueryButton")!=null){%>
                 <div class="row">
                     <div class="col-lg-12">
-                        <!--<div class="panel panel-default">
-                            <div class="panel-heading">
+                        <div class="panel panel-default">
+                            <!--<div class="panel-heading">
                                 <h3 class="panel-title">Recent Visitor</h3>
-                            </div>
+                            </div>-->
                             <div class="panel-body">
-                                <h3>RID displays your content in an eye-catching way and enables customizable internal distribution.</h3>
-                                <h4>RID displays your content in an eye-catching way and enables customizable internal distribution.</h4>
-                                <p>RID displays your content in an eye-catching way and enables customizable internal distribution. RID displays your content in an eye-catching way and enables customizable internal distribution.RID displays your content in an eye-catching way and enables customizable internal distribution.</p>
+                                <h4>Question :</h4>
+                                <div class="pull-right"><button name="deleteQueryButton" class="btn btn-group bg-primary">Delete</button></div>
                             </div>
-                        </div>-->
-                        <!--<div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Recent Visitor</h3>
-                            </div>
-                            <div class="panel-body">
-                                <h3>RID displays your content in an eye-catching way and enables customizable internal distribution.</h3>
-                                <h4>RID displays your content in an eye-catching way and enables customizable internal distribution.</h4>
-                                <p>RID displays your content in an eye-catching way and enables customizable internal distribution. RID displays your content in an eye-catching way and enables customizable internal distribution.RID displays your content in an eye-catching way and enables customizable internal distribution.</p>
-                            </div>
-                        </div>-->
+                        </div>
                     </div>
                 </div>
+                <%}}%>
             </div>
+                <!--</form>-->
+                <!-- Compose Mail Form-->
+                <%if (request.getParameter("mailForm")!=null){%>
+                <div id="Email">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-lg-12" style="">
+                                <h2 class="design">Compose Mail Form</h2>
+                                <form action="ComposeServletProcess">
+                                    <table>
+                                        <tr><td>To:</td><td><input type="text" name="to"/></td></tr>
+                                        <tr><td>Subject:</td><td><input type="text" name="subject"/></td></tr>
+                                        <tr><td colspan="2">Message:</td><td></tr>
+                                        <tr><td colspan="2"><textarea name="message" rows="5" cols="30"></textarea></td></tr>
+                                        <tr><td colspan="2"><input id="submit" type="submit" value="Send Mail"/>
+                                        </td></tr>
+                                    </table>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <%}%>
+        </div>
         </div>
         <!-- /#Content area -->
 
         <!-- Footer area -->
         <footer class="footer">
             <div class="container-fluid">
-                <p class="copy-text">Copyright All Rights Reserved by Preview Technologies Limited © 2016</p>
+                <p class="copy-text"> No Copyright Use it well © 2018</p>
             </div>
         </footer>
         <!-- /#Footer area -->

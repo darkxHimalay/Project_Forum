@@ -41,6 +41,28 @@ public class AdminPageClass {
         catch(Exception e){e.printStackTrace();}
         return 0;
     }
+    public void deleteQueries(int ques_id){
+        try{
+            con=new ConnectionProvider().getConnection();
+            ps=con.prepareStatement("DELETE FROM question_table WHERE question_id=?");
+            ps.setInt(1,ques_id);
+            rs=ps.executeQuery();
+            rs.next();
+
+        }
+        catch(Exception e){e.printStackTrace();}
+    }
+    public void deleteReplies(int ques_id){
+        try{
+            con=new ConnectionProvider().getConnection();
+            ps=con.prepareStatement("DELETE FROM reply_table WHERE question_id=?");
+            ps.setInt(1,ques_id);
+            rs=ps.executeQuery();
+            rs.next();
+
+        }
+        catch(Exception e){e.printStackTrace();}
+    }
     public static void main(String[] args) {
         int i=new AdminPageClass().countQueriesAnswered();
         System.out.println(i);
