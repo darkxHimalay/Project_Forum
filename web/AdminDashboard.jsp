@@ -219,9 +219,9 @@
                 <% if (request.getParameter("deleteButton")!=null){%>
                 <!--<form action="AdminServlet.jsp">-->
                 <div id="DeletePart">
-                <form action="AdminDashboard.jsp">
+                <form name="myform" action="AdminDashboard.jsp">
                 <h4 class="overview-value"><span> Delete a Query </span></h4>
-                 Select Topic <select  name="topic" onchange=this.form.submit()>
+                 Select Topic <select name="topic" onchange=myform.submit()>
                     <option value="java"> Topic </option>
                     <option value="java EE"> Java EE </option>
                     <option value="java/Android"> Java\Android </option>
@@ -229,7 +229,8 @@
                     <option value="SQA"> Sqa </option>
                 </select></form>
 
-                <%
+                <%}
+                    System.out.println(request.getParameter("topic"));
                     if(request.getParameter("topic")!=null){
                     topicValue=request.getParameter("topic");
                     System.out.println(topicValue);
@@ -257,7 +258,7 @@
                             </div>
                         </div>
                     </div>
-                </div><%}}catch (Exception e){e.printStackTrace();}}%>
+                </div><%}}catch (Exception e){e.printStackTrace();}%>
 
                     <% if(request.getParameter("deleteQueryButton")!=null){%>
                 <div class="row">

@@ -92,9 +92,9 @@
                         <p class="card-text"></p>
 
                         <textarea name="question" rows="8" cols="60"></textarea>
-                        <script>
+                      <!--  <script>
                             CKEDITOR.replace( "question");
-                        </script>
+                        </script>--->
                         <br>
 
                         <button type="submit" name="postQuestioButton" class="btn btn-primary">Post your question</button>
