@@ -230,20 +230,23 @@
                 </select></form>
 
                 <%}
-                    System.out.println(request.getParameter("topic"));
+                    //System.out.println(request.getParameter("topic"));
                     if(request.getParameter("topic")!=null){
-                    topicValue=request.getParameter("topic");
-                    System.out.println(topicValue);
-                    //if(request.getParameter("topic")!=null){
-                    //if(request.getParameter("deleteQueryButton")==null){
+                    //topicValue=request.getParameter("topic");
+                   // System.out.println(topicValue);
+                    //if(request.getParameter("topic")!=null
+                        if(request.getParameter("deleteQueryButton")==null){
                     try{
                        con= new ConnectionProvider().getConnection();
                        ps=con.prepareStatement("select * from save_question where topic=?");
                        ps.setString(1,request.getParameter("topic"));
                        rs=ps.executeQuery();
                        while(rs.next()){
+
                 %>
-                <div class="row ">
+
+
+                    <div class="row ">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <!--<div class="panel-heading">
@@ -251,14 +254,17 @@
                             </div>-->
                             <div class="panel-body">
                                 <h4>Question :<%=rs.getString("question")%></h4>
-                                <div class="pull-right"><button name="deleteQueryButton" class="btn btn-group bg-primary">Delete</button></div>
+                                <form action="AdminServlet"> <input type="hidden" name="DeleteQuestion_id" value="<%=rs.getString("question_id")%>">
+                                <div class="pull-right"><button type="submit" name="deleteQueryButton" class="btn btn-group bg-primary">Delete</button></div>
+                                </form>
+                                <!--<input name="DeleteQuestion_id" type="hidden" value="("question_id")%>">-->
                               <!--  <h4>RID displays your content in an eye-catching way and enables customizable internal distribution.</h4>
                                 <p>RID displays your content in an eye-catching way and enables customizable internal distribution. RID displays your content in an eye-catching way and enables customizable internal distribution.
                                 RID displays your content in an eye-catching way and enables customizable internal distribution.</p>-->
                             </div>
                         </div>
                     </div>
-                </div><%}}catch (Exception e){e.printStackTrace();}%>
+                </div><%}}catch (Exception e){e.printStackTrace();}}%>
 
                     <% if(request.getParameter("deleteQueryButton")!=null){%>
                 <div class="row">
@@ -269,12 +275,12 @@
                             </div>-->
                             <div class="panel-body">
                                 <h4>Question :</h4>
-                                <div class="pull-right"><button name="deleteQueryButton" class="btn btn-group bg-primary">Delete</button></div>
+                                <div class="pull-right"><button type="submit" name="deleteQueryButton" class="btn btn-group bg-primary">Delete</button></div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <%}}%>
+                  </div>
+                    <%}}%>
             </div>
                 <!--</form>-->
                 <!-- Compose Mail Form-->

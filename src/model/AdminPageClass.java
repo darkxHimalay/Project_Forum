@@ -41,30 +41,42 @@ public class AdminPageClass {
         catch(Exception e){e.printStackTrace();}
         return 0;
     }
-    public void deleteQueries(int ques_id){
+    public boolean deleteQueries(String ques_id){
         try{
             con=new ConnectionProvider().getConnection();
-            ps=con.prepareStatement("DELETE FROM question_table WHERE question_id=?");
-            ps.setInt(1,ques_id);
-            rs=ps.executeQuery();
-            rs.next();
-
+            ps=con.prepareStatement("delete from save_question where question_id=? ");
+            ps.setString(1,ques_id);
+            ps.executeUpdate();
+            return true;
         }
         catch(Exception e){e.printStackTrace();}
+        return false;
     }
-    public void deleteReplies(int ques_id){
+    public boolean deleteReplies(String ques_id){
+            try{
+            con=new ConnectionProvider().getConnection();
+            ps=con.prepareStatement("delete from reply_table where question_id=?");
+            ps.setString(1,ques_id);
+            ps.executeUpdate();
+            return true;
+        }catch(Exception e){e.printStackTrace();}
+        return  false;
+    }
+    public boolean checkReplies(int ques_id){
         try{
             con=new ConnectionProvider().getConnection();
-            ps=con.prepareStatement("DELETE FROM reply_table WHERE question_id=?");
+            ps=con.prepareStatement("select count(*) from reply_table where question_id=?");
             ps.setInt(1,ques_id);
             rs=ps.executeQuery();
             rs.next();
-
+            int i=rs.getInt("count(*)");
+            if(i>0){ return true;}
         }
         catch(Exception e){e.printStackTrace();}
+        return  false;
     }
     public static void main(String[] args) {
-        int i=new AdminPageClass().countQueriesAnswered();
-        System.out.println(i);
+        boolean vi=new AdminPageClass().deleteQueries("4");
+        System.out.println(vi);
     }
 }
