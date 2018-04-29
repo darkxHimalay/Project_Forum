@@ -48,9 +48,9 @@
             <li class="nav-item active">
                 <a class="nav-link" href="index.jsp" style="color: whitesmoke">Login/SignUp<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link" href="#"style="color: whitesmoke">Logout</a>
-            </li>
+            </li>-->
             <li class="nav-item">
                 <a class="nav-link" href="Questions.jsp" style="color: whitesmoke;">Dashboard</a>
             </li>

@@ -8,6 +8,7 @@
 <%@ page import="model.User" %>
 <%@ page import="java.sql.*"%>
 <%@ page import="utility.ConnectionProvider"%>
+<%@ page import="model.Upvote" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -51,7 +52,7 @@
                 <a class="nav-link" href="index.jsp" style="color: whitesmoke">Login/SignUp<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"style="color: whitesmoke">Logout</a>
+                <a class="nav-link" href="index.jsp"style="color: whitesmoke">Logout</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="Questions.jsp" style="color: whitesmoke">Dashboard</a>
@@ -59,9 +60,9 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:whitesmoke">More</a>
                 <div class="dropdown-menu" style=" background-color: #3163b2" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="admin.jsp" style=" color: whitesmoke">Admin/Login</a>
-                    <a class="dropdown-item" href="# "style=" color: whitesmoke">About Us</a>
-                    <a class="dropdown-item" href="# "style=" color: whitesmoke">Something else will be here</a>
+                    <a class="dropdown-item" href="admin.jsp" style=" color:Black">Admin/Login</a>
+                    <a class="dropdown-item" href="# "style=" color: Black">About Us</a>
+                    <a class="dropdown-item" href="# "style=" color: Black">Something else will be here</a>
                 </div>
             </li>
         </ul>
@@ -80,7 +81,7 @@
                     <div class="card-header">
                         Having Question
                         <select name="topic">
-                            <option value="default">Topic</option>
+                            <option value="java/Android">Topic : Java</option>
                             <option value="java/Android">java/Android</option>
                             <option value="java EE" >java EE</option>
                             <option value="SQA" >SQA</option>
@@ -94,7 +95,7 @@
                         <textarea name="question" rows="8" cols="60"></textarea>
                       <!--  <script>
                             CKEDITOR.replace( "question");
-                        </script>--->
+                        </script>-->
                         <br>
 
                         <button type="submit" name="postQuestioButton" class="btn btn-primary">Post your question</button>
@@ -107,6 +108,7 @@
                 <div class="card" style="width: 20rem;">
                     <img class="card-img-top" src="https://www.yueimg.com/en/images/common/avatar.b6a87.png" alt="Card image cap" style="
           width:7rem;margin-left:100px;">
+                    
                     <ul class="list-group list-group-flush">
                         <%!
                             String name=null;
@@ -115,10 +117,12 @@
                             User u;
                             String valueOBJ;
                             Integer valueINT=null;
+                            //String count;
                         %>
                         <%
                              valueOBJ=request.getAttribute("value").toString();
                              valueINT=Integer.parseInt(valueOBJ);
+
                              u=new User();
                              name=new User().getname(valueINT);
                              reg_id=new User().getbeboId(valueINT);
@@ -131,23 +135,27 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" name="getAtt" value="<%=valueOBJ%>">
+        <input type="hidden" name="getValueFromLogin" value="<%=valueOBJ%>">
     </form>
     <br>
     <%!
         private static Connection con;
         private static PreparedStatement ps;
         private static ResultSet rs;
+        Upvote upvote;
     %>
     <%
         if(request.getParameter("postQuestioButton")==null){
             try{
+                upvote=new Upvote();
                 con=  new ConnectionProvider().getConnection();
                 ps=con.prepareStatement("SELECT * FROM save_question ORDER BY question_id desc");
                 rs=ps.executeQuery();
+               // count=request.getAttribute("count").toString();
+
                 while(rs.next()){
+
     %>
-    <form action="Reply.jsp">
     <div class="row" style="width: 100%">
         <div class="col-9">
             <div class="card">
@@ -155,16 +163,19 @@
                     <h5 class="card-title"><%=rs.getString(4)%></h5>
                     <h6 class="card-subtitle mb-2 text-muted"><%=rs.getString(3)%></h6>
                     <p class="card-text">Q:<%=rs.getString(2)%></p>
-                    <a href="#"  type="button" class="btn btn-primary">Upvote</a>
-                    <button  name="replyButton" type="submit" class="btn btn-primary">Reply</button>
-                    <input type="hidden" name="question_id" value="<%=rs.getInt("question_id")%>">
-                    <input type="hidden" name="student_id" value="<%=rs.getInt("student_id")%>">
-                    <input type="hidden" name="student_idl" value="<%=valueOBJ%>">
+                    <form action="Reply.jsp">
+                        <button name="replyButton" type="submit" class="btn btn-primary">Reply</button>
+                        <input type="hidden" name="question_id" value="<%=rs.getInt("question_id")%>">
+                        <input type="hidden" name="student_id" value="<%=rs.getInt("student_id")%>">
+                        <input type="hidden" name="student_idl" value="<%=valueOBJ%>">
+                        <label><button name="UpVote" type="submit" value="Upvote" class="btn btn-primary">Upvote</button>
+                            <%=upvote.countUpvotes(Integer.toString(rs.getInt("question_id")),Integer.toString(rs.getInt("student_id")))%>
+                        </label>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    </form>
     <br>
     <%
                 }}catch (Exception e){e.printStackTrace();}}
@@ -177,7 +188,7 @@
                 rs=ps.executeQuery();
                 while(rs.next()){
     %>
-    <form action="Reply.jsp">
+
     <div class="row" style="width: 100%">
         <div class="col-9">
             <div class="card">
@@ -185,16 +196,20 @@
                     <h5 class="card-title"><%=rs.getString(4)%></h5>
                     <h6 class="card-subtitle mb-2 text-muted"><%=rs.getString(3)%></h6>
                     <p class="card-text">Q:<%=rs.getString(2)%></p>
-                    <a href="#"  type="button" class="btn btn-primary">Upvote</a>
+                    <form action="Reply.jsp">
                     <button name="replyButton" type="submit" class="btn btn-primary">Reply</button>
-                    <input type="hidden" name="question_id" value="<%=rs.getInt("question_id")%>">
-                    <input type="hidden" name="student_id" value="<%=rs.getInt("student_id")%>">
-                    <input type="hidden" name="student_idl" value="<%=valueOBJ%>">
+                        <input type="hidden" name="question_id" value="<%=rs.getInt("question_id")%>">
+                        <input type="hidden" name="student_id" value="<%=rs.getInt("student_id")%>">
+                        <input type="hidden" name="student_idl" value="<%=valueOBJ%>">
+                        <label><button name="UpVote" type="submit" value="Upvote" class="btn btn-primary">Upvote</button>
+                            <%=upvote.countUpvotes(Integer.toString(rs.getInt("question_id")),Integer.toString(rs.getInt("student_id")))%>
+                        </label>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    </form>
+
     <br>
     <%}}catch (Exception e){e.printStackTrace();}}%>
 </main>

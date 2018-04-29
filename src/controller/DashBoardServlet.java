@@ -1,6 +1,8 @@
 package controller;
 
+import com.sun.org.apache.regexp.internal.RE;
 import model.SaveQuestion;
+import model.Upvote;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,17 +29,42 @@ public class DashBoardServlet extends HttpServlet {
         String n=request.getParameter("name");
       //  String email=request.getParameter("emauil_us");
         PrintWriter out=response.getWriter();
-
-        String comin=request.getParameter("getAtt").toString();
-
         try{
             if(request.getParameter("postQuestioButton")!=null){
+                String valueFromLogin=request.getParameter("getValueFromLogin").toString();
                 SaveQuestion save=new SaveQuestion();
                 save.saveQuestion(s,p,n,SaveQuestion.get_id(n));
-                request.setAttribute("value",comin);
+                request.setAttribute("valueFromLogin",valueFromLogin);
                 request.getRequestDispatcher("dashboard.jsp").include(request,response);
+            }
+            else if(request.getParameter("UpVote")!=null ){
+                String question_ID=request.getParameter("question_id");
+                String student_idl=request.getParameter("student_idl");
+                String student_id=request.getParameter("student_id");
+                //String valueObj=request.getParameter("");
+                System.out.println( question_ID+" =====> "+student_idl+" ======> "+student_id);
+                Upvote upvote=new Upvote();
+                int countUpvote=0;
+                if(!upvote.validateQuestion(question_ID,student_id,student_idl)){
+                    upvote.insertData(student_id,student_idl,question_ID);
+                    countUpvote=upvote.countUpvotes(question_ID,student_id);
+                    request.setAttribute("value",student_idl);
+                    request.setAttribute("count",countUpvote);
+                    request.getRequestDispatcher("dashboard.jsp").forward(request,response);
+
                 }
+                else{
+                    upvote.toggleData(student_id,student_idl,question_ID);
+                    countUpvote=upvote.countUpvotes(question_ID,student_id);
+                    request.setAttribute("value",student_idl);
+                    request.setAttribute("count",countUpvote);
+                    request.getRequestDispatcher("dashboard.jsp").forward(request,response);
+                }
+                System.out.println(countUpvote);
+                //Integer countUpvotes=countUpvote;
+            }
         }
+
         catch(Exception e){e.printStackTrace();}
     }
 }

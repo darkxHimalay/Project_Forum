@@ -9,6 +9,11 @@
     import="java.sql.Connection" import="java.sql.PreparedStatement" import="utility.ConnectionProvider"
     import="java.sql.ResultSet"%>
 <%@ page import="model.SaveReply" %>
+<%if(request.getParameter("UpVote")!=null){
+    //System.out.println("In DashboardServlet");
+    RequestDispatcher requestDispatcher=request.getRequestDispatcher("DashboardServlet");
+    requestDispatcher.forward(request,response);
+}%>
 <%!
     private Connection con;
     private PreparedStatement ps;
@@ -57,15 +62,15 @@
                 <a class="nav-link" href="index.jsp" style="color:whitesmoke">Login/SignUp<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#"style="color:whitesmoke">Logout</a>
+                <a class="nav-link" href="index.jsp"style="color:whitesmoke">Logout</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="dashboard.jsp" style="color:whitesmoke">Dashboard</a>
+                <a class="nav-link" href="Questions.jsp" style="color:whitesmoke">Dashboard</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:whitesmoke">More</a>
                 <div class="dropdown-menu" style="background-color: #3163b2" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="admin.jsp" style=".dropdown-item{color:whitesmoke}.dropdown-item:hover{color:black}">Admin/Login</a>
+                    <a class="dropdown-item" href="admin.jsp" style="color:black;">Admin/Login</a>
                     <a class="dropdown-item" href="# "style="color: black">About Us</a>
                     <a class="dropdown-item" href="# "style="color: black">Something else here</a>
                 </div>
@@ -79,11 +84,13 @@
 </nav>
 
 <main role="main" class="container" style="max-width: 1400px;">
+
     <form action="ReplyServlet">
         <%! String question_id;
             String student_id;
             String student_idl;
         %>
+
         <% question_id=request.getParameter("question_id");
            student_id=request.getParameter("student_id");
            student_idl=request.getParameter("student_idl");

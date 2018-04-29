@@ -4,10 +4,12 @@
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="utility.ConnectionProvider" %>
+<%@ page import="model.Upvote" %>
 <%!
     private Connection con;
     private PreparedStatement ps;
     private ResultSet rs;
+    private String admin_id=null;
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,13 +61,13 @@
                 <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="dashboard"><i class="fa fa-dashboard"></i> Dashboard</button>
             </li>
             <li>
-                <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="deleteButton"><i class="fa fa-area-chart"></i> Delete Queries </button>
+                <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="deleteButton"><i class="fa fa-area-chart"></i> Delete Queries And Replies </button>
             </li>
             <li>
                 <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="mailForm"><i class="fa fa-tree"></i> Send Mail </button>
             </li>
             <li>
-                <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke"href="#"><i class="fa fa-shield"></i> Privacy</button>
+                <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="deleteRepliesButton"><i class="fa fa-area-chart"></i> Delete Replies</button>
             </li>
             <li>
                 <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke"><i class="fa fa-foursquare"></i> Forum</button>
@@ -123,7 +125,7 @@
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
                                     <li><a href="index.jsp"><i class="fa fa-user"></i> E-tech Login</a></li>
                                     <li><a href="#"><i class="fa fa-wrench"></i> Setting</a></li>
-                                    <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                                    <li><a href="admin.jsp"><i class="fa fa-power-off"></i> Logout</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -135,15 +137,19 @@
         <!-- /#header -->
         <%!
             AdminPageClass adPgCl;
+            Upvote upvote;
             int i=0;
             int j=0;
             int k=0;
+            int l=0;
             String topicValue;
         %><%
         adPgCl=new AdminPageClass();
+        upvote=new Upvote();
         i=adPgCl.countQueries();
         j=adPgCl.countRegisteredUser();
         k=adPgCl.countQueriesAnswered();
+        l=upvote.countTotalUpvotes();
     %>
 
         <!-- Content area -->
@@ -208,7 +214,7 @@
                                 </div>
                             </div>-->
                             <div class="overview-right pull-left">
-                                <h4 class="overview-value">UPVote</h4>
+                                <h4 class="overview-value"><%=l%></h4>
                                 <span class="overview-title">Total Upvotes</span>
                             </div>
                             <div class="clearfix"></div>
@@ -217,7 +223,6 @@
                 </div>
                 <!--   For delete  -->
                 <% if (request.getParameter("deleteButton")!=null){%>
-                <!--<form action="AdminServlet.jsp">-->
                 <div id="DeletePart">
                 <form name="myform" action="AdminDashboard.jsp">
                 <h4 class="overview-value"><span> Delete a Query </span></h4>
@@ -252,11 +257,16 @@
                             <!--<div class="panel-heading">
                                 <h3 class="panel-title">Recent Visitor</h3>
                             </div>-->
+
                             <div class="panel-body">
                                 <h4>Question :<%=rs.getString("question")%></h4>
-                                <form action="AdminServlet"> <input type="hidden" name="DeleteQuestion_id" value="<%=rs.getString("question_id")%>">
-                                <div class="pull-right"><button type="submit" name="deleteQueryButton" class="btn btn-group bg-primary">Delete</button></div>
+                                <div class="pull-right">
+                                <form action="AdminServlet">
+                                    <input type="hidden" name="question_id" value="<%=rs.getString("question_id")%>">
+                                    <input type="hidden" name="">
+                                    <button type="submit" name="deleteQueryButton" class="btn btn-group bg-primary">Delete</button>
                                 </form>
+                            </div>
                                 <!--<input name="DeleteQuestion_id" type="hidden" value="("question_id")%>">-->
                               <!--  <h4>RID displays your content in an eye-catching way and enables customizable internal distribution.</h4>
                                 <p>RID displays your content in an eye-catching way and enables customizable internal distribution. RID displays your content in an eye-catching way and enables customizable internal distribution.
@@ -265,6 +275,8 @@
                         </div>
                     </div>
                 </div><%}}catch (Exception e){e.printStackTrace();}}%>
+                    <%! String s;%>
+                    <% s=request.getAttribute("question_id").toString();%>
 
                     <% if(request.getParameter("deleteQueryButton")!=null){%>
                 <div class="row">
@@ -285,7 +297,72 @@
                 <!--</form>-->
                 <!-- Compose Mail Form-->
                 <%if (request.getParameter("mailForm")!=null){%>
-                <div id="Email">
+                <html>
+                <head>
+                    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+                    <title>Notice</title>
+                    <style type="text/css">
+                        .boxed {
+                            border: 1px solid green ;
+                        }
+                    </style>
+                </head>
+                <body>
+                <form action="mail.jsp">
+                    <p><b>Select the Category</b></p>
+                    <select  name="Categories" onchange="this.form.submit()">
+                        <option value="select">Select Category</option>
+
+                        <option value="course">Course</option>
+
+                    </select>
+                </form>
+                <form>
+                    <select name="SubCategories" onchange="this.form.submit()">
+                    </select>
+                    <input type="hidden" name="search" value="<%--=search--%>"/>
+
+                </form>
+                <form action="mail_sender.jsp">
+                    <div>
+                        <br>
+                        <b>To:</b>
+                        <input type="text" name="emails" value="<%--=emails--%>">
+                        <br>
+                    </div>
+
+                    <div>
+                        <br>
+                        <b>From:</b>
+                        <input type="text" name="from">
+                        <br>
+                    </div>
+
+                    <div>
+                        <br>
+                        <b>Subject:</b>
+                        <input type="text" name="sub">
+                    </div>
+                    <br>
+
+                    <div>
+                        <b>Body:</b>
+                        <br>
+                        <textarea  rows="8" cols="100" name="msg" placeholder="Enter your message here......"></textarea>
+                        <br>
+                    </div>
+
+                    <div>
+                        <br><br>
+                        <input type="submit" name="Send" value="send" onclick="showAlert()">
+
+                        <br>
+                    </div>
+                </form>
+                </body>
+                </html>
+                <!--jsp:include page="Mail.jsp"--/>
+                <!--<div id="Email">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-lg-12" style="">
@@ -304,8 +381,9 @@
 
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <%}%>
+
         </div>
         </div>
         <!-- /#Content area -->

@@ -17,17 +17,28 @@ public class AdminServlet extends HttpServlet {
         doGet(request,response);
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String hello=request.getParameter("DeleteQuestion_id");
         AdminPageClass adPgCl=new AdminPageClass();
-        if(adPgCl.deleteQueries(hello)){
-           if(adPgCl.checkReplies(Integer.parseInt(hello))){
-               adPgCl.deleteReplies(hello);
+        String question_id=request.getParameter("question_id");
+        String showReplies=request.getParameter("showQueryRepliesButton");
+        String deletequeryButton=request.getParameter("deleteQueryButton");
+        String user=request.getParameter("admin_ID");
+        String pass=request.getParameter("password");
+//        if(adPgCl.validateAdmin(user,pass)){
+//            //request.setAttribute("admin_ID",user);
+//            request.getRequestDispatcher("AdminDashboard.jsp").forward(request,response);
+//        }
+        System.out.println(showReplies);
+         if(deletequeryButton!=null){
+             adPgCl.deleteQueries(question_id);
+           if(adPgCl.checkReplies(Integer.parseInt(question_id))){
+               adPgCl.deleteReplies(question_id);
+               adPgCl.deleteUpvotes(question_id);
             request.getRequestDispatcher("AdminDashboard.jsp").include(request,response);
            }
-           else{
-               request.getRequestDispatcher("AdminDashboard.jsp").include(request,response);
-           }
         }
+        else if(showReplies!=null){
+             request.setAttribute("question_id",question_id);
+             request.getRequestDispatcher("adminPage.jsp").include(request,response);
+         }
     }
 }

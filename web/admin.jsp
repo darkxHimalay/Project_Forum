@@ -196,14 +196,12 @@
     <header class="login-header">
         <span class="text">E-tech Login</span><span class="loader"></span>
     </header>
-    <form action="AdminDashboard.jsp" class='login-form' name="myform">
+    <form action="adminPage.jsp" class="login-form" name="myform">
         <input class="login-input" type="text" name="admin_ID" placeholder=" Admin ID" />
         <input class="login-input" type="password" name="password" placeholder="Password" />
         <button class="login-btn" type="submit" name="login_Sign_in" value="login">Login</button>
+
     </form>
-    <!--<div class="text-center p-t-12">
-        <span class="txt1"><a class="txt2" href='http://localhost:8080/E-Tech_forum/signUp.html'>New User/Click_Here </a></span>
-    </div>-->
 </div>
 </body>
 </html>
