@@ -96,6 +96,21 @@ public class AdminPageClass {
             System.out.println("Inside delete upvotes"+e);
         }
     }
+    public boolean checkUpvotes(String question_id){
+        try{
+            con=new ConnectionProvider().getConnection();
+            ps=con.prepareStatement("select count(*) from upvote where question_id=?");
+            ps.setString(1,question_id);
+            rs=ps.executeQuery();
+            rs.next();
+            int i=rs.getInt("count(*)");
+            if(i>0){ return true;}
+        }
+        catch(Exception e){
+            System.out.println(e+"Inside Check Upvotes");
+        }
+        return  false;
+    }
     public boolean validateAdmin(String user,String pass){
         boolean flag=false;
         try{
@@ -104,16 +119,29 @@ public class AdminPageClass {
             ps.setString(1,user);
             ps.setString(2,pass);
             rs=ps.executeQuery();
-            if(rs.next()){
+            if(rs!=null){
                 flag=true;
                 return flag;
             }
         }
-        catch(Exception e){e.printStackTrace();}
+        catch(Exception e){
+            System.out.println(AdminPageClass.class.getMethods()[8].getName() +" : "+e);
+        }
         return flag;
     }
+    public void deleteReply(String reply_id){
+        try{
+            con=new ConnectionProvider().getConnection();
+            ps=con.prepareStatement("delete * from reply_table where question_id=?");
+            ps.setString(1,reply_id);
+            ps.executeUpdate();
+        }
+        catch(Exception e){
+            System.out.println("Inside delete Reply"+e);
+        }
+    }
     public static void main(String[] args) {
-        boolean vi=new AdminPageClass().deleteQueries("4");
+        boolean vi=new AdminPageClass().checkReplies(4);
         System.out.println(vi);
     }
 }

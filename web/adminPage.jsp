@@ -12,6 +12,7 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="utility.ConnectionProvider" %>
 <%@ page import="model.Upvote" %>
+<%@ page import="model.User" %>
 <%!
     private Connection con;
     private PreparedStatement ps;
@@ -60,7 +61,7 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
-                        <img src="" class="logo" alt="Logo"/>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4Iz2mR-W6WAFZlndCmCEiCMMHF-bdHh02uNlkfk9wf_nu8HOD4Q" class="logo" alt="Logo"/>
                     </a>
                 </li>
                 <li>
@@ -123,15 +124,15 @@
                     <div class="pull-right">
                         <div class="profile-overview">
                             <div class="dropdown customm-dropdown">
-                                <img src="Image" class="profile-pic" alt="Avatar"/>
+                                <img src="img/IMG_20180317_162034.jpg" class="profile-pic" alt="Avatar"/>
                                 <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    Preview Techs
+                                    E-Tech Forum Admin
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
                                     <li><a href="index.jsp"><i class="fa fa-user"></i> E-tech Login</a></li>
                                     <li><a href="#"><i class="fa fa-wrench"></i> Setting</a></li>
-                                    <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                                    <li><a href="admin.jsp"><i class="fa fa-power-off"></i> Logout</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -242,12 +243,7 @@
                     </select></form>
 
                     <%}
-                        //System.out.println(request.getParameter("topic"));
                         if(request.getParameter("topic")!=null){
-                            //topicValue=request.getParameter("topic");
-                            // System.out.println(topicValue);
-                            //if(request.getParameter("topic")!=null
-                            if(request.getParameter("deleteQueryButton")==null){
                                 try{
                                     con= new ConnectionProvider().getConnection();
                                     ps=con.prepareStatement("select * from save_question where topic=?");
@@ -269,18 +265,43 @@
                                         <div class="pull-right">
                                             <button type="submit" name="deleteQueryButton" class="btn btn-group bg-primary">Delete</button>
                                             <button type="submit" name="showQueryRepliesButton" class="btn btn-group bg-primary">Show Replies</button>
+                                            <input  type="hidden" name="question_id" value="<%=rs.getString("question_id")%>">
                                         </div>
                                     </form>
-                                    <!--<input name="DeleteQuestion_id" type="hidden" value="("question_id")%>">-->
-                                    <!--  <h4>RID displays your content in an eye-catching way and enables customizable internal distribution.</h4>
-                                      <p>RID displays your content in an eye-catching way and enables customizable internal distribution. RID displays your content in an eye-catching way and enables customizable internal distribution.
-                                      RID displays your content in an eye-catching way and enables customizable internal distribution.</p>-->
                                 </div>
                             </div>
                         </div>
-                    </div><%}}catch (Exception e){e.printStackTrace();}}}%>
+                    </div><%}}catch (Exception e){e.printStackTrace();}}%>
                 </div>
-                <!--</form>-->
+                <div id="DeletePart">
+                    <%
+                        if(request.getParameter("showQueryRepliesButton")!=null){
+                        try{
+                        con= new ConnectionProvider().getConnection();
+                        ps=con.prepareStatement("select * from reply_table where question_id=?");
+                        ps.setString(1,request.getAttribute("question_id").toString());
+                        rs=ps.executeQuery();
+                        while(rs.next()){
+                    %>
+
+
+                    <div class="row ">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <h4><%=new User().getname(Integer.parseInt(rs.getString("student_idl")))%> : Replied :<%=rs.getString("reply")%></h4>
+                                        <div class="pull-right">
+                                            <form action="AdminServlet">
+                                                <input type="hidden" name="reply_id" value="<%=rs.getString("reply_id")%>">
+                                                <button type="submit" name="deleteReplyButton" class="btn btn-group bg-primary">Delete</button>
+                                            </form>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><%}}catch (Exception e){e.printStackTrace();}}%>
+                </div>
+
                 <!-- Compose Mail Form-->
                 <%if (request.getParameter("mailForm")!=null){%>
                 <div id="Email">

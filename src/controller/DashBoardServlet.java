@@ -31,10 +31,10 @@ public class DashBoardServlet extends HttpServlet {
         PrintWriter out=response.getWriter();
         try{
             if(request.getParameter("postQuestioButton")!=null){
-                String valueFromLogin=request.getParameter("getValueFromLogin").toString();
+                String value=request.getParameter("getValueFromLogin").toString();
                 SaveQuestion save=new SaveQuestion();
                 save.saveQuestion(s,p,n,SaveQuestion.get_id(n));
-                request.setAttribute("valueFromLogin",valueFromLogin);
+                request.setAttribute("value",value);
                 request.getRequestDispatcher("dashboard.jsp").include(request,response);
             }
             else if(request.getParameter("UpVote")!=null ){
@@ -42,7 +42,7 @@ public class DashBoardServlet extends HttpServlet {
                 String student_idl=request.getParameter("student_idl");
                 String student_id=request.getParameter("student_id");
                 //String valueObj=request.getParameter("");
-                System.out.println( question_ID+" =====> "+student_idl+" ======> "+student_id);
+               // System.out.println( question_ID+" =====> "+student_idl+" ======> "+student_id);
                 Upvote upvote=new Upvote();
                 int countUpvote=0;
                 if(!upvote.validateQuestion(question_ID,student_id,student_idl)){
@@ -60,7 +60,7 @@ public class DashBoardServlet extends HttpServlet {
                     request.setAttribute("count",countUpvote);
                     request.getRequestDispatcher("dashboard.jsp").forward(request,response);
                 }
-                System.out.println(countUpvote);
+               // System.out.println(countUpvote);
                 //Integer countUpvotes=countUpvote;
             }
         }
