@@ -340,9 +340,6 @@
     <!-- /#page-content-wrapper -->
 </div>
 <!-- /#wrapper -->
-
-
-
 <script src="js/jquery-2.2.0.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

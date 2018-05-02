@@ -55,7 +55,5 @@ public class AdminServlet extends HttpServlet {
              adPgCl.deleteReply(reply_id);
              request.getRequestDispatcher("adminPage.jsp").include(request,response);
          }
-
-
     }
 }

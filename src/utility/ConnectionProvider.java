@@ -9,10 +9,14 @@ public class ConnectionProvider {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/loginmodule", "root", "");
-            //System.out.println("Connection established");
+          //  System.out.println("Connection established");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return con;
+    }
+
+    public static void main(String[] args) {
+        new ConnectionProvider().getConnection();
     }
 }

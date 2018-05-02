@@ -1,6 +1,5 @@
 package model;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import utility.ConnectionProvider;
 
 import java.sql.Connection;
@@ -27,27 +26,50 @@ public class Upvote {
         catch (Exception e){
             System.out.println(e+"Insert data");}
     }
-    public void toggleData(String student_id,String student_idl,String question_id){
-        try{
-            //con=new ConnectionProvider().getConnection();
-            stm=con.createStatement();
-            rs=stm.executeQuery("select * from upvote");
-            rs.next();
-            String s=rs.getString("toggle");
-            ps=con.prepareStatement("update upvote set toggle=? where question_id=? and student_id=? and student_idl=?");
-            if(s.equals("T")){
-                ps.setString(1,"F");
-            }
-            else {
-                ps.setString(1,"T");
-            }
-            ps.setString(2,question_id);
-            ps.setString(3,student_id);
-            ps.setString(4,student_idl);
-            int x=ps.executeUpdate();
+//    public void toggleData(String student_id,String student_idl,String question_id){
+//        try{
+//            con=new ConnectionProvider().getConnection();
+//            stm=con.createStatement();
+//            rs=stm.executeQuery("select * from upvote");
+//            rs.next();
+//            String s=rs.getString("toggle");
+//            ps=con.prepareStatement("update upvote set toggle=? where question_id=? and student_id=? and student_idl=?");
+//            if(s.equals("T")){
+//                ps.setString(1,"F");
+//            }
+//            else if(s.equals("F")){
+//                ps.setString(1,"T");
+//            }
+//            ps.setString(2,question_id);
+//            ps.setString(3,student_id);
+//            ps.setString(4,student_idl);
+//            int x=ps.executeUpdate();
+//        }
+//        catch (Exception e){e.printStackTrace();}
+//    }
+public void toggleData(String student_id,String student_idl,String question_id){
+    try{
+        con=new ConnectionProvider().getConnection();
+        stm=con.createStatement();
+        rs=stm.executeQuery("select * from upvote where question_id="+question_id+" and student_id="+student_id+" and student_idl="+student_idl+"");
+        rs.next();
+        String s=rs.getString("toggle");
+      //  System.out.println(s);
+        if(s.equals("T")){
+         //   ps.setString(1,"F");
+            ps=con.prepareStatement("update upvote set toggle='F' where question_id=? and student_id=? and student_idl=?");
         }
-        catch (Exception e){e.printStackTrace();}
+        else if(s.equals("F")){
+           // ps.setString(1,"T");
+            ps=con.prepareStatement("update upvote set toggle='T' where question_id=? and student_id=? and student_idl=?");
+        }
+        ps.setString(1,question_id);
+        ps.setString(2,student_id);
+        ps.setString(3,student_idl);
+        int x=ps.executeUpdate();
     }
+    catch (Exception e){e.printStackTrace();}
+}
     public int countUpvotes(String question_id,String student_id){
      int count=0;
 
@@ -98,10 +120,10 @@ public class Upvote {
         }
         return count;
     }
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 //         Upvote u=new Upvote();
-//         u.toggleData("2","2");
-//         int i=u.countUpvotes("2","2");
+//         u.toggleData("1","1","7");
+//         int i=u.countUpvotes("7","1");
 //         System.out.println(i);
-    }
+//    }
 }
