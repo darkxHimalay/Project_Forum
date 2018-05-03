@@ -4,11 +4,13 @@ import utility.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class AdminPageClass {
     private Connection con;
     private PreparedStatement ps;
     private ResultSet rs;
-    public int countQueries(){
+    public int countQueries()throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("select count(*) from save_question");
@@ -17,10 +19,13 @@ public class AdminPageClass {
             return rs.getInt("count(*)");
         }
         catch(Exception e){
-            System.out.println(" Inside Count Queries"+e);}
+            System.out.println(" Inside Count Queries"+e);}finally {
+            con.close();
+            ps.close();
+        }
         return 0;
     }
-    public int countRegisteredUser(){
+    public int countRegisteredUser()throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("select count(*) from logintableetech");
@@ -29,10 +34,13 @@ public class AdminPageClass {
             return rs.getInt("count(*)");
         }
         catch(Exception e){
-            System.out.println("Inside Count registered user"+e);}
+            System.out.println("Inside Count registered user"+e);}finally {
+            con.close();
+            ps.close();
+        }
         return 0;
     }
-    public int countQueriesAnswered(){
+    public int countQueriesAnswered()throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("select count(*) from reply_table");
@@ -42,10 +50,13 @@ public class AdminPageClass {
         }
         catch(Exception e){
             System.out.println(e+" Inside Count Queries Answered");
+        }finally {
+            con.close();
+            ps.close();
         }
         return 0;
     }
-    public boolean deleteQueries(String ques_id){
+    public boolean deleteQueries(String ques_id)throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("delete from save_question where question_id=? ");
@@ -55,10 +66,13 @@ public class AdminPageClass {
         }
         catch(Exception e){
             System.out.println(e+"inside Delete Queries");
+        }finally {
+            con.close();
+            ps.close();
         }
         return false;
     }
-    public boolean deleteReplies(String ques_id){
+    public boolean deleteReplies(String ques_id)throws SQLException{
             try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("delete from reply_table where question_id=?");
@@ -67,10 +81,13 @@ public class AdminPageClass {
             return true;
         }catch(Exception e){
                 System.out.println("Inside Delete Replies"+e);
+            }finally {
+                con.close();
+                ps.close();
             }
         return  false;
     }
-    public boolean checkReplies(int ques_id){
+    public boolean checkReplies(int ques_id)throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("select count(*) from reply_table where question_id=?");
@@ -82,10 +99,13 @@ public class AdminPageClass {
         }
         catch(Exception e){
             System.out.println(e+"Inside Check Replies");
+        }finally {
+            con.close();
+            ps.close();
         }
         return  false;
     }
-    public void deleteUpvotes(String question_id){
+    public void deleteUpvotes(String question_id)throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("delete * from upvote where question_id=?");
@@ -94,9 +114,12 @@ public class AdminPageClass {
         }
         catch(Exception e){
             System.out.println("Inside delete upvotes"+e);
+        }finally {
+            con.close();
+            ps.close();
         }
     }
-    public boolean checkUpvotes(String question_id){
+    public boolean checkUpvotes(String question_id)throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("select count(*) from upvote where question_id=?");
@@ -108,10 +131,13 @@ public class AdminPageClass {
         }
         catch(Exception e){
             System.out.println(e+"Inside Check Upvotes");
+        }finally {
+            con.close();
+            ps.close();
         }
         return  false;
     }
-    public boolean validateAdmin(String user,String pass){
+    public boolean validateAdmin(String user,String pass)throws SQLException{
         boolean flag=false;
         try{
             con=new ConnectionProvider().getConnection();
@@ -126,10 +152,13 @@ public class AdminPageClass {
         }
         catch(Exception e){
             System.out.println(AdminPageClass.class.getMethods()[8].getName() +" : "+e);
+        }finally {
+            con.close();
+            ps.close();
         }
         return flag;
     }
-    public void deleteReply(String reply_id){
+    public void deleteReply(String reply_id)throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("delete * from reply_table where question_id=?");
@@ -138,9 +167,28 @@ public class AdminPageClass {
         }
         catch(Exception e){
             System.out.println("Inside delete Reply"+e);
+        }finally {
+            con.close();
+            ps.close();
         }
     }
-    public static void main(String[] args) {
+    public void saveAdmin(String email_id,String password)throws SQLException {
+        try{
+            con=new ConnectionProvider().getConnection();
+            ps=con.prepareStatement("insert into admin_login values(?,?,null)");
+            ps.setString(1,email_id);
+            ps.setString(2,password);
+            ps.executeQuery();
+        }
+        catch (Exception e){
+            System.out.println(e+"Inside save admin");
+        }
+        finally {
+            con.close();
+            ps.close();
+        }
+    }
+    public static void main(String[] args) throws SQLException {
         boolean vi=new AdminPageClass().checkReplies(4);
         System.out.println(vi);
     }

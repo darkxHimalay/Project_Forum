@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "ReplyServlet")
 public class ReplyServlet extends HttpServlet {
@@ -23,9 +24,12 @@ public class ReplyServlet extends HttpServlet {
      int questionId=Integer.parseInt(question_id);
      int studentIdl=Integer.parseInt(student_idl);
        // System.out.println(student_id+" ==> "+question_id+" ==> "+student_idl);
-     String reply = request.getParameter("ReplyFromJsp");
-        SaveReply save= new SaveReply();
-        save.save_reply(reply,studentId,studentIdl,questionId);
-        request.getRequestDispatcher("Reply.jsp").include(request,response);
+     try {
+         String reply = request.getParameter("ReplyFromJsp");
+         SaveReply save= new SaveReply();
+         save.save_reply(reply,studentId,studentIdl,questionId);
+         request.getRequestDispatcher("Reply.jsp").include(request,response);
+     }catch (Exception e){e.printStackTrace();}
+
      }
 }

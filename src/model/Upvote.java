@@ -2,10 +2,7 @@ package model;
 
 import utility.ConnectionProvider;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Upvote {
     //TODO to insert the data
@@ -14,7 +11,7 @@ public class Upvote {
     private PreparedStatement ps;
     private Statement stm;
     private ResultSet rs;
-    public void insertData(String studentId,String studentIdl,String question_id){
+    public void insertData(String studentId,String studentIdl,String question_id)throws SQLException {
         try {
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("INSERT INTO upvote VALUES (?,?,'T',?)");
@@ -24,7 +21,10 @@ public class Upvote {
             ps.executeUpdate();
         }
         catch (Exception e){
-            System.out.println(e+"Insert data");}
+            System.out.println(e+"Insert data");}finally {
+            con.close();
+            ps.close();
+        }
     }
 //    public void toggleData(String student_id,String student_idl,String question_id){
 //        try{
@@ -47,7 +47,7 @@ public class Upvote {
 //        }
 //        catch (Exception e){e.printStackTrace();}
 //    }
-public void toggleData(String student_id,String student_idl,String question_id){
+public void toggleData(String student_id,String student_idl,String question_id)throws SQLException{
     try{
         con=new ConnectionProvider().getConnection();
         stm=con.createStatement();
@@ -68,9 +68,12 @@ public void toggleData(String student_id,String student_idl,String question_id){
         ps.setString(3,student_idl);
         int x=ps.executeUpdate();
     }
-    catch (Exception e){e.printStackTrace();}
+    catch (Exception e){e.printStackTrace();}finally {
+        con.close();
+        ps.close();
+    }
 }
-    public int countUpvotes(String question_id,String student_id){
+    public int countUpvotes(String question_id,String student_id)throws SQLException{
      int count=0;
 
         try{
@@ -83,10 +86,13 @@ public void toggleData(String student_id,String student_idl,String question_id){
         count=rs.getInt(1);
 
         }catch (Exception e){
-            System.out.println("count Upvotes"+e);}
+            System.out.println("count Upvotes"+e);}finally {
+            con.close();
+            ps.close();
+        }
         return count;
     }
-    public boolean validateQuestion(String question_id,String student_id,String student_idl){
+    public boolean validateQuestion(String question_id,String student_id,String student_idl)throws SQLException{
         boolean flag=false;
         try{
           //  System.out.println(question_id+" ====> "+student_id);
@@ -102,10 +108,13 @@ public void toggleData(String student_id,String student_idl,String question_id){
             flag=true;//return true;
         }catch (Exception e){
             System.out.println("Validate "+e);
+        }finally {
+            con.close();
+            ps.close();
         }
       return flag;//return false
     }
-    public int countTotalUpvotes(){
+    public int countTotalUpvotes()throws SQLException{
         int count=0;
         try{
         con=new ConnectionProvider().getConnection();
@@ -117,6 +126,9 @@ public void toggleData(String student_id,String student_idl,String question_id){
         }
         catch (Exception e){
             System.out.println(e);
+        }finally {
+            con.close();
+            ps.close();
         }
         return count;
     }

@@ -39,7 +39,10 @@
     </style>
 </head>
 <body>
-
+<%!String student_id;%>
+<%  student_id=request.getAttribute("value").toString();
+    HttpSession session1=request.getSession(false);
+   if(session1!=null && session1.getAttribute("ID").toString().equals(student_id)){%>
 <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #3163b2;">
     <a class="navbar-brand" href="#" style="color: whitesmoke">E-tech Forum</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -233,4 +236,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
+<%}else{
+       out.println("<h5 STYLE=\"color: darkred\"> Wrong Session</h5>");
+}%>
 </html>

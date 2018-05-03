@@ -2,17 +2,14 @@ package model;
 
 import utility.ConnectionProvider;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class User {
     private  Connection con=null;
     private  PreparedStatement ps;
     private  ResultSet rs;
     private  Statement stm;
-    public boolean validate(String s,String a){
+    public boolean validate(String s,String a)throws SQLException {
         try{
             con= new ConnectionProvider().getConnection();
             ps=con.prepareStatement("select * from logintableetech where email=? and password=?");
@@ -22,9 +19,13 @@ public class User {
             if(rs.next())
             {return true;}
         }catch (Exception e){e.printStackTrace();}
+        finally {
+            con.close();
+            ps.close();
+        }
         return false;
     }
-    public void insertData(String username,String email,String pass,String reg_id,String dob){
+    public void insertData(String username,String email,String pass,String reg_id,String dob)throws SQLException{
         try {
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("INSERT INTO logintableetech VALUES (?,?,?,?,?,now(),NULL)");
@@ -36,8 +37,12 @@ public class User {
             ps.executeUpdate();
         }
         catch (Exception e){e.printStackTrace();}
+        finally {
+            con.close();
+            ps.close();
+        }
     }
-    public String getname(int id) {
+    public String getname(int id)throws SQLException {
         String name = null;
         try {
             con = new ConnectionProvider().getConnection();
@@ -49,9 +54,13 @@ public class User {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            con.close();
+            ps.close();
+        }
         return name;
     }
-    public String getbeboId(int id){
+    public String getbeboId(int id)throws SQLException{
         String name=null;
         try {
             con = new ConnectionProvider().getConnection();
@@ -61,9 +70,13 @@ public class User {
             rs.next();
             name= rs.getString("bebo_reg_id");
         }catch (Exception e){e.printStackTrace();}
+        finally {
+            con.close();
+            ps.close();
+        }
         return name;
     }
-    public int getStudent_id(String emailid){
+    public int getStudent_id(String emailid)throws SQLException{
         int id=0;
         try {
             con = new ConnectionProvider().getConnection();
@@ -73,10 +86,14 @@ public class User {
             rs.next();
             id= rs.getInt(7);
         }catch (Exception e){e.printStackTrace();}
+        finally {
+            con.close();
+            ps.close();
+        }
         return id;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)throws SQLException {
         String s=new User().getname(1);
         System.out.println(s);
         int i=new User().getStudent_id("hello@gmail.com");

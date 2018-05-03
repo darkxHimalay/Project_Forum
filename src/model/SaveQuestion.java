@@ -2,17 +2,14 @@ package model;
 
 import utility.ConnectionProvider;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class SaveQuestion {
     private static Connection con;
     private static PreparedStatement ps;
     private static ResultSet rs;
     private static Statement stm;
-    public static int get_id(String name){
+    public static int get_id(String name)throws SQLException {
         try {
             con=new ConnectionProvider().getConnection();
             ps = con.prepareStatement("select student_id from logintableetech where full_name=?");
@@ -21,10 +18,13 @@ public class SaveQuestion {
             if(rs.next()){
                 return rs.getInt(1);
             }
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {e.printStackTrace();}finally {
+            con.close();
+            ps.close();
+        }
         return 0;
     }
-    public static void saveQuestion(String question,String topic,String name,int id) {
+    public static void saveQuestion(String question,String topic,String name,int id)throws SQLException {
         try {
             con=new ConnectionProvider().getConnection();
             ps = con.prepareStatement("INSERT INTO save_question VALUES (null,?,?,?,now(),?)");
@@ -33,9 +33,12 @@ public class SaveQuestion {
             ps.setString(3,name);
             ps.setInt(4,id);
             ps.executeUpdate();
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {e.printStackTrace();}finally {
+            con.close();
+            ps.close();
+        }
     }
-    public String showName(){
+    public String showName()throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("SELECT * FROM save_question");
@@ -44,10 +47,13 @@ public class SaveQuestion {
                 return rs.getString(3);
             }
         }
-        catch (Exception e){e.printStackTrace();}
+        catch (Exception e){e.printStackTrace();}finally {
+            con.close();
+            ps.close();
+        }
         return null;
     }
-    public String showTopic(){
+    public String showTopic()throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("SELECT * FROM save_question");
@@ -56,10 +62,13 @@ public class SaveQuestion {
                 return rs.getString(2);
             }
         }
-        catch (Exception e){e.printStackTrace();}
+        catch (Exception e){e.printStackTrace();}finally {
+            con.close();
+            ps.close();
+        }
         return null;
     }
-    public String showQuestion(){
+    public String showQuestion()throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
             ps=con.prepareStatement("SELECT * FROM save_question");
@@ -68,7 +77,10 @@ public class SaveQuestion {
                 return rs.getString(1);
             }
         }
-        catch (Exception e){e.printStackTrace();}
+        catch (Exception e){e.printStackTrace();}finally {
+            con.close();
+            ps.close();
+        }
         return null;
     }
     // public String showdate(){}

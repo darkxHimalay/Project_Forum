@@ -44,6 +44,7 @@ public class LoginServlet extends HttpServlet{
         userreg_id=request.getParameter("reg_id");
         dob=request.getParameter("dob");
         buttonValue=request.getParameter("sign-sign-up-button");
+        try{
         int student_id=new User().getStudent_id(useremail);
         //out.println(buttonValue);
        // System.out.println(student_id);
@@ -53,8 +54,8 @@ public class LoginServlet extends HttpServlet{
                 user=new User();
                 if(user.validate(useremail,userpass)){
                     //TODO creating a session
-//                    HttpSession user_ses=request.getSession(true);
-//                    user_ses.setAttribute("ID",name);
+                    HttpSession user_ses=request.getSession(true);
+                    user_ses.setAttribute("ID",student_id);
                     request.setAttribute("value",student_id);
                     out.println("<h5 STYLE=\"color: darkred\">  Login Sucess</h5>");
                     request.getRequestDispatcher("dashboard.jsp").include(request,response);
@@ -72,5 +73,6 @@ public class LoginServlet extends HttpServlet{
             }
             catch (Exception e){e.printStackTrace();}
         }
-    }
+    }catch (Exception e){e.printStackTrace();}
+        }
 }

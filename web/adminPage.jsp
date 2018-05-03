@@ -68,13 +68,13 @@
                     <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="dashboard"><i class="fa fa-dashboard"></i> Dashboard</button>
                 </li>
                 <li>
-                    <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="deleteButton"><i class="fa fa-area-chart"></i> Delete Queries </button>
+                    <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="deleteButton"><i class="fa fa-book"></i> Delete Queries </button>
                 </li>
                 <li>
-                    <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="mailForm"><i class="fa fa-tree"></i> Send Mail </button>
+                    <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="mailForm"><i class="fa fa-file-text"></i> Send Mail </button>
                 </li>
                 <li>
-                    <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke"href="#"><i class="fa fa-shield"></i> Privacy</button>
+                    <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke" name="AdminForm"><i class="fa fa-female"></i> Add a Admin </button>
                 </li>
                 <li>
                     <button type="submit" style="padding: 0;border: none;background: none; color: whitesmoke"><i class="fa fa-foursquare"></i> Forum</button>
@@ -105,6 +105,7 @@
         <div class="header">
             <!--<div class="clearfix"></div>-->
             <div class="row">
+                <form action="adminPage.jsp">
                 <div class="col-lg-6 visible-lg visible-md">
                     <div class="search_bar">
                         <div class="input-group search_bar_input">
@@ -119,8 +120,9 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="pull-left">
-                        <input type="button" class="btn btn-group btn-group-justified bg-primary" value="Search"/>
+                        <button type="Submit" class="btn btn-group btn-group-justified bg-primary">Search</button>
                     </div>
+
                     <div class="pull-right">
                         <div class="profile-overview">
                             <div class="dropdown customm-dropdown">
@@ -139,6 +141,7 @@
                     </div>
                     <!--<div class="clearfix"></div>-->
                 </div>
+                </form>
             </div>
         </div>
         <!-- /#header -->
@@ -283,8 +286,6 @@
                         rs=ps.executeQuery();
                         while(rs.next()){
                     %>
-
-
                     <div class="row ">
                         <div class="col-lg-12">
                             <div class="panel panel-default">
@@ -304,26 +305,57 @@
 
                 <!-- Compose Mail Form-->
                 <%if (request.getParameter("mailForm")!=null){%>
-                <div id="Email">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="col-lg-12" style="">
-                                <h2 class="design">Compose Mail Form</h2>
-                                <form action="ComposeServletProcess">
-                                    <table>
-                                        <tr><td>To:</td><td><input type="text" name="to"/></td></tr>
-                                        <tr><td>Subject:</td><td><input type="text" name="subject"/></td></tr>
-                                        <tr><td colspan="2">Message:</td><td></tr>
-                                        <tr><td colspan="2"><textarea name="message" rows="5" cols="30"></textarea></td></tr>
-                                        <tr><td colspan="2"><input id="submit" type="submit" value="Send Mail"/>
-                                        </td></tr>
-                                    </table>
-                                </form>
-                            </div>
-
+                <div class="container"><span><h4 class="overview-value"> Students who have asked Question from the topic
+                    <form name="myform" action="adminPage.jsp"><select name="topic" onchange=myform.submit()>
+                        <option value="java/Android"> Topic </option>
+                        <option value="java EE"> Java EE </option>
+                        <option value="java/Android"> Java\Android </option>
+                        <option value="PHP"> Php </option>
+                        <option value="SQA"> Sqa </option>
+                    </select>
+                    </form>
+                    </h4></span>
+                    <h4>Send An Email</h4>
+                    <p></p>
+                    <form action="AdminServlet">
+                        <div class="form-group">
+                            <label for="user">To:</label>
+                            <input type="text" name="emails" class="form-control" id="user">
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="pawd">Subject:</label>
+                            <input type="text" name= "sub" class="form-control" id="pawd">
+                        </div>
+                        <div class="form-group">
+                            <label for="asd">Message:</label>
+                            <textarea rows="7"  name="msg" type="textarea" class="form-control" id="asd"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <br>
+                            <button type="Submit" class="btn btn-group btn-group-justified bg-primary" name="sendButton">Send An Email</button>
+                        </div>
+                    </form>
                 </div>
+                <%} if(request.getParameter("AdminForm")!=null){%>
+                <div class="container">
+                    <h2>Form Add an Admin</h2>
+                    <p>Enter the following fields to add an Admin</p>
+                    <form action="AdminServlet">
+                        <div class="form-group">
+                            <label for="usr">ADMIN EMAIL ID:</label>
+                            <input type="text" class="form-control" id="usr">
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Password:</label>
+                            <input type="password" class="form-control" id="pwd">
+                        </div>
+                        <div class="form-group">
+                            <br>
+                            <button type="Submit" class="btn btn-group btn-group-justified bg-primary">Add an Admin</button>
+                        </div>
+                    </form>
+                </div>
+
                 <%}%>
             </div>
         </div>
