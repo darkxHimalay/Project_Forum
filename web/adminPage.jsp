@@ -28,14 +28,11 @@
      <meta name="author" content="Binary Pack Ltd.">-->
     <link rel="icon" href="img/favicon.ico">
     <title>Adminstator</title>
-
     <!-- CSS libraries-->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-
     <!-- Google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-
     <!-- Custom stylesheet -->
     <link href="css/main.css" rel="stylesheet">
 
@@ -61,7 +58,7 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4Iz2mR-W6WAFZlndCmCEiCMMHF-bdHh02uNlkfk9wf_nu8HOD4Q" class="logo" alt="Logo"/>
+                        <img src="http://www.ethnictechnologies.com/wp-content/uploads/2016/08/ETech-2018-Logo.jpg" class="logo" alt="Logo"/>
                     </a>
                 </li>
                 <li>
@@ -144,6 +141,7 @@
                 </form>
             </div>
         </div>
+
         <!-- /#header -->
         <%!
             AdminPageClass adPgCl;
@@ -232,8 +230,8 @@
                     </div>
                 </div>
                 <!--   For delete  -->
-                <% if (request.getParameter("deleteButton")!=null){%>
                 <!--<form action="AdminServlet.jsp">-->
+                <% if (request.getParameter("deleteButton")!=null){%>
                 <div id="DeletePart">
                     <form name="myform" action="adminPage.jsp">
                         <h4 class="overview-value"><span> Delete a Query </span></h4>
@@ -253,6 +251,8 @@
                                     ps.setString(1,request.getParameter("topic"));
                                     rs=ps.executeQuery();
                                     while(rs.next()){
+
+                                    }
                     %>
 
 
@@ -274,7 +274,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div><%}}catch (Exception e){e.printStackTrace();}}%>
+                    </div><%}catch (Exception e){e.printStackTrace();}}%>
                 </div>
                 <div id="DeletePart">
                     <%
@@ -305,8 +305,9 @@
 
                 <!-- Compose Mail Form-->
                 <%if (request.getParameter("mailForm")!=null){%>
-                <div class="container"><span><h4 class="overview-value"> Students who have asked Question from the topic
-                    <form name="myform" action="adminPage.jsp"><select name="topic" onchange=myform.submit()>
+                <div class="container">send mail to Students who have asked Question from the topic
+                    <form name="myform1" action="adminPage.jsp" id="hit">
+                    <select name="topicForEmail" onchange=myform1.submit()>
                         <option value="java/Android"> Topic </option>
                         <option value="java EE"> Java EE </option>
                         <option value="java/Android"> Java\Android </option>
@@ -314,13 +315,19 @@
                         <option value="SQA"> Sqa </option>
                     </select>
                     </form>
-                    </h4></span>
-                    <h4>Send An Email</h4>
-                    <p></p>
+                    <%}if(request.getParameter("topicForEmail")!=null){
+                       try{
+                        con=new ConnectionProvider().getConnection();
+                        ps=con.prepareStatement("SELECT logintableetech.email,save_question.topic FROM logintableetech INNER JOIN save_question ON logintableetech.student_id=save_question.student_id where topic=?");
+                        ps.setString(1,request.getParameter("topicForEmail"));
+                        rs=ps.executeQuery();
+                        while(rs.next()){
+                       %>
                     <form action="AdminServlet">
                         <div class="form-group">
                             <label for="user">To:</label>
-                            <input type="text" name="emails" class="form-control" id="user">
+                            <input type="text" name="emails" class="form-control" id="user"
+                                   value='<%=rs.getString("email")%>'>
                         </div>
                         <div class="form-group">
                             <label for="pawd">Subject:</label>
@@ -336,6 +343,8 @@
                         </div>
                     </form>
                 </div>
+                <%}}
+                catch(Exception e){System.out.println(e);}%>
                 <%} if(request.getParameter("AdminForm")!=null){%>
                 <div class="container">
                     <h2>Form Add an Admin</h2>

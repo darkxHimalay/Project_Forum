@@ -8,6 +8,8 @@
         </element>
         <element id="directory" name="lib">
           <element id="file-copy" path="E:/Software/softs/mysql-connector-java-5.1.45/mysql-connector-java-5.1.45-bin.jar" />
+          <element id="library" level="module" name="mail-1.4.7.jar" module-name="Project_ForumNew" />
+          <element id="file-copy" path="$USER_HOME$/Downloads/jsoup-1.10.2.jar" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="Project_ForumNew/web/Web" />

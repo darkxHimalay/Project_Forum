@@ -31,13 +31,16 @@ public class DashBoardServlet extends HttpServlet {
         PrintWriter out=response.getWriter();
         try{
             if(request.getParameter("postQuestioButton")!=null){
+                String ses=request.getParameter("ses");
                 String value=request.getParameter("getValueFromLogin").toString();
                 SaveQuestion save=new SaveQuestion();
                 save.saveQuestion(s,p,n,SaveQuestion.get_id(n));
                 request.setAttribute("value",value);
+                request.setAttribute("ses",ses);
                 request.getRequestDispatcher("dashboard.jsp").include(request,response);
             }
             else if(request.getParameter("UpVote")!=null ){
+                String ses=request.getParameter("ses");
                 String question_ID=request.getParameter("question_id");
                 String student_idl=request.getParameter("student_idl");
                 String student_id=request.getParameter("student_id");
@@ -48,6 +51,7 @@ public class DashBoardServlet extends HttpServlet {
                 if(!upvote.validateQuestion(question_ID,student_id,student_idl)){
                     upvote.insertData(student_id,student_idl,question_ID);
                     countUpvote=upvote.countUpvotes(question_ID,student_id);
+                    request.setAttribute("ses",ses);
                     request.setAttribute("value",student_idl);
                     request.setAttribute("count",countUpvote);
                     request.getRequestDispatcher("dashboard.jsp").forward(request,response);
@@ -58,13 +62,13 @@ public class DashBoardServlet extends HttpServlet {
                     countUpvote=upvote.countUpvotes(question_ID,student_id);
                     request.setAttribute("value",student_idl);
                     request.setAttribute("count",countUpvote);
+                    request.setAttribute("ses",ses);
                     request.getRequestDispatcher("dashboard.jsp").forward(request,response);
                 }
                // System.out.println(countUpvote);
                 //Integer countUpvotes=countUpvote;
             }
         }
-
         catch(Exception e){e.printStackTrace();}
     }
 }

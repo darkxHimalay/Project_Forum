@@ -9,11 +9,18 @@
     import="java.sql.Connection" import="java.sql.PreparedStatement" import="utility.ConnectionProvider"
     import="java.sql.ResultSet"%>
 <%@ page import="model.SaveReply" %>
+<%@ page import="src.model.GoogleSearchScrapper" %>
+<%@ page import="java.util.ArrayList" %>
 <%if(request.getParameter("UpVote")!=null){
     //System.out.println("In DashboardServlet");
+    String ses=request.getParameter("ses");
+    request.setAttribute("ses",ses);
     RequestDispatcher requestDispatcher=request.getRequestDispatcher("DashboardServlet");
     requestDispatcher.forward(request,response);
-}%>
+}
+    String ses=request.getParameter("ses");
+    request.setAttribute("ses",ses);
+%>
 <%!
     private Connection con;
     private PreparedStatement ps;
@@ -21,7 +28,8 @@
     private String reply=null;
     SaveReply re;
     String Question_id=null;
-%>
+    String ses;
+%><%ses=request.getAttribute("ses").toString();%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -114,6 +122,7 @@
                         <input type="hidden" name="question_id" value="<%=question_id%>">
                         <input type="hidden" name="student_id" value="<%=student_id%>">
                         <input type="hidden" name="student_idl" value="<%=student_idl%>">
+                        <input type="hidden" name="ses" value="<%=ses%>">
                         <button type="submit" name="postReplyButton" class="btn btn-primary" style="margin-left: 32px;">Post your Reply</button>
                         <!--</form>  -->
                     </div>
@@ -122,7 +131,32 @@
         </div>
     </form>
     <br>
-
+    <div class="row" style="width:100%">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="margin-left: 32px;"> you can use following google links</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"style="margin-left: 32px;"></h6>
+                    <%!
+                        GoogleSearchScrapper googleSearchScrapper;
+                        ArrayList arrayList;
+                        ArrayList arrayListlinks;
+                    %>
+                    <%
+                        arrayList=new ArrayList();
+                        arrayListlinks=new ArrayList();
+                        googleSearchScrapper=new GoogleSearchScrapper();
+                        arrayList=googleSearchScrapper.getLinksNamesFromGoogle(re.getQuestion(question_id));
+                        arrayListlinks=googleSearchScrapper.getLinksFromGoogle(re.getQuestion(question_id));
+                        for (int i = 0; i <arrayListlinks.size(); i++) {
+                    %>
+                    <a href="<%=arrayListlinks.get(i).toString()%>" class="card-text"style="margin-left: 32px;"><%=arrayList.get(i).toString()%></a>
+                    <%}arrayList.clear();arrayListlinks.clear();
+                    %>
+                </div>
+            </div>
+        </div>
+    </div>
     <%
         if(request.getParameter("postReplyButton")==null){
             try{

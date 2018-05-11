@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet{
                 if(user.validate(useremail,userpass)){
                     //TODO creating a session
                     HttpSession user_ses=request.getSession(true);
-                    user_ses.setAttribute("ID",student_id);
+                    user_ses.setAttribute("ses",student_id);
                     request.setAttribute("value",student_id);
                     out.println("<h5 STYLE=\"color: darkred\">  Login Sucess</h5>");
                     request.getRequestDispatcher("dashboard.jsp").include(request,response);

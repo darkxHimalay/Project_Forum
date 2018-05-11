@@ -161,12 +161,12 @@ public class AdminPageClass {
     public void deleteReply(String reply_id)throws SQLException{
         try{
             con=new ConnectionProvider().getConnection();
-            ps=con.prepareStatement("delete * from reply_table where question_id=?");
+            ps=con.prepareStatement("delete from reply_table where reply_id=?");
             ps.setString(1,reply_id);
             ps.executeUpdate();
         }
         catch(Exception e){
-            System.out.println("Inside delete Reply"+e);
+            System.out.println(" Inside delete Reply : "+e);
         }finally {
             con.close();
             ps.close();
@@ -189,7 +189,6 @@ public class AdminPageClass {
         }
     }
     public static void main(String[] args) throws SQLException {
-        boolean vi=new AdminPageClass().checkReplies(4);
-        System.out.println(vi);
+
     }
 }

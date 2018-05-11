@@ -39,10 +39,12 @@
     </style>
 </head>
 <body>
-<%!String student_id;%>
+<%!String student_id;
+   String ses;%>
 <%  student_id=request.getAttribute("value").toString();
     HttpSession session1=request.getSession(false);
-   if(session1!=null && session1.getAttribute("ID").toString().equals(student_id)){%>
+    ses=session1.getAttribute("ses").toString();
+   if(session1!=null && ses.equals(student_id)){%>
 <nav class="navbar navbar-expand-lg fixed-top" style="background-color: #3163b2;">
     <a class="navbar-brand" href="#" style="color: whitesmoke">E-tech Forum</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,8 +112,8 @@
             <div class="col-3" style="float: right;">
                 <div class="card" style="width: 20rem;">
                     <img class="card-img-top" src="https://www.yueimg.com/en/images/common/avatar.b6a87.png" alt="Card image cap" style="
-          width:7rem;margin-left:100px;">
-                    
+                          width:7rem;margin-left:100px;">
+
                     <ul class="list-group list-group-flush">
                         <%!
                             String name=null;
@@ -139,6 +141,7 @@
             </div>
         </div>
         <input type="hidden" name="getValueFromLogin" value="<%=valueOBJ%>">
+        <input type="hidden" name="ses" value="<%=ses%>">
     </form>
     <br>
     <%!
@@ -174,6 +177,7 @@
                         <label><button name="UpVote" type="submit" value="Upvote" class="btn btn-primary">Upvote</button>
                             <%=upvote.countUpvotes(Integer.toString(rs.getInt("question_id")),Integer.toString(rs.getInt("student_id")))%>
                         </label>
+                        <input type="hidden" name="ses" value="<%=ses%>">
                     </form>
                 </div>
             </div>
@@ -207,6 +211,7 @@
                         <label><button name="UpVote" type="submit" value="Upvote" class="btn btn-primary">Upvote</button>
                             <%=upvote.countUpvotes(Integer.toString(rs.getInt("question_id")),Integer.toString(rs.getInt("student_id")))%>
                         </label>
+                        <input type="hidden" name="ses" value="<%=ses%>">
                     </form>
                 </div>
             </div>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/Tomcat 8.5.29"/>
-	<classpathentry exported="true" kind="lib" path="E:/Software/softs/mysql-connector-java-5.1.45/mysql-connector-java-5.1.45-bin.jar"/>
-	<classpathentry exported="true" kind="lib" path="E:/Software/softs/New folder/mail/mail-1.4.7.jar"/>
-	<classpathentry kind="output" path="out/production/Project_ForumNew"/>
-</classpath>

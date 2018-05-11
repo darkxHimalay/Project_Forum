@@ -25,6 +25,8 @@ public class ReplyServlet extends HttpServlet {
      int studentIdl=Integer.parseInt(student_idl);
        // System.out.println(student_id+" ==> "+question_id+" ==> "+student_idl);
      try {
+         String ses=request.getParameter("ses");
+         request.setAttribute("ses",ses);
          String reply = request.getParameter("ReplyFromJsp");
          SaveReply save= new SaveReply();
          save.save_reply(reply,studentId,studentIdl,questionId);
